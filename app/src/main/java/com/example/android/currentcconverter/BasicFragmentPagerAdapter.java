@@ -3,6 +3,7 @@ package com.example.android.currentcconverter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.widget.EditText;
 
 /**
  * Created by ngtrnhan1205 on 10/21/17.

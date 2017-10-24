@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
         <LinearLayout
@@ -39,6 +40,7 @@
                     android:gravity="bottom|center"
                     android:text="CAD"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     android:textSize="24sp" />
 
                 <EditText
@@ -49,10 +51,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textPersonName"
                     android:padding="0dp"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="24sp" />
 
                 <TextView
@@ -70,19 +71,21 @@
             android:id="@+id/countryNameTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_gravity="left|center"
             android:layout_weight="5"
             android:padding="0dp"
             android:paddingLeft="30dp"
-            android:text="Canadian Dollar"
-            android:textAlignment="center"
-            android:textSize="24sp" />
+            android:text="      (Canadian Dollar)"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:textAlignment="center">
 
@@ -93,7 +96,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Favorites"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView"
@@ -102,7 +107,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Conversion"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <ListView
