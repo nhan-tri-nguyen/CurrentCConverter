@@ -54,7 +54,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="0.6"
             android:gravity="center|end"
-            android:text="TextView"
+            android:text="100"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
@@ -109,37 +109,6 @@
             android:layout_weight="0.6"
             android:gravity="center|end"
             android:text="TextView"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        android:textAlignment="center">
-
-        <TextView
-            android:id="@+id/textViewTab2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Favorites"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/textViewTab"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Conversion"
-            android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 

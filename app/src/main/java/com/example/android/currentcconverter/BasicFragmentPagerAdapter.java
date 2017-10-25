@@ -1,9 +1,12 @@
 package com.example.android.currentcconverter;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.widget.EditText;
+
+import java.util.Locale;
 
 /**
  * Created by ngtrnhan1205 on 10/21/17.
@@ -11,22 +14,39 @@ import android.widget.EditText;
 
 public class BasicFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    public BasicFragmentPagerAdapter(FragmentManager fragmentManager) {
+    Context mContext;
+
+    public BasicFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
+        mContext = context;
     }
 
     @Override
     public Fragment getItem(int position) {
-        if (position== 0) {
-            return new FavoritesFragment();
+        switch (position){
+            case 0:
+                return  new ConversionFragment();
+            case 1:
+                return new FavoritesFragment();
         }
-        else {
-            return new ConversionFragment();
-        }
+        return null;
     }
 
     @Override
     public int getCount() {
         return 2;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+
+        //Generate title
+        switch (position){
+            case 0:
+                return mContext.getString(R.string.fragment_favorite).toUpperCase(Locale.getDefault());
+            case 1:
+                return mContext.getString(R.string.fragment_conversion).toUpperCase(Locale.getDefault());
+        }
+        return null;
     }
 }
