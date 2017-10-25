@@ -11,6 +11,10 @@
         android:id="@+id/tabbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="center"
+        app:tabTextColor="@color/primaryTextColor"
+        app:tabSelectedTextColor="@color/colorAccent"
         app:tabMode="fixed"/>
 
     <android.support.v4.view.ViewPager

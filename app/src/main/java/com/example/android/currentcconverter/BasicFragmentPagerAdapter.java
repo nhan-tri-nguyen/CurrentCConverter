@@ -43,9 +43,9 @@ public class BasicFragmentPagerAdapter extends FragmentPagerAdapter {
         //Generate title
         switch (position){
             case 0:
-                return mContext.getString(R.string.fragment_favorite).toUpperCase(Locale.getDefault());
-            case 1:
                 return mContext.getString(R.string.fragment_conversion).toUpperCase(Locale.getDefault());
+            case 1:
+                return mContext.getString(R.string.fragment_favorite).toUpperCase(Locale.getDefault());
         }
         return null;
     }

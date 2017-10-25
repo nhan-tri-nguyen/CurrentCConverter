@@ -37,28 +37,5 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    class GetURL extends AsyncTask<String, Void, String> {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
-        @Override
-        protected String doInBackground(String... urls) {
-            Request request = new Request.Builder().url(urls[0]).build();
-
-            try {
-                Response response = okHttpClient.newCall(request).execute();
-                return response.body().string();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if (s == "") {
-                Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_LONG).show();
-            }
-            super.onPostExecute(s);
-        }
-    }
 }
