@@ -5,7 +5,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_conversion">conversion</string>
     <string name="fragment_favorite">favorite</string>
-    <string-array name="planets_array">
+    <string-array name="currencies_array">
         <item>AED-United Arab Emirates Dirham-AED</item>
         <item>AFN-Afghan Afghani-AFN</item>
         <item>ALL-Albanian Lek-ALL</item>
@@ -14,7 +14,6 @@
         <item>AOA-Angolan Kwanza-AOA</item>
         <item>ARS-Argentine Peso-ARS</item>
         <item>AUD-Australian Dollar-AUD</item>
-        <item>AWG-Aruban Florin-AWG</item>
         <item>AZN-Azerbaijani Manat-AZN</item>
         <item>BAM-Bosnia-Herzegovina Convertible Mark-BAM</item>
         <item>BBD-Barbadian Dollar-BBD</item>
@@ -29,9 +28,6 @@
         <item>BSD-Bahamian Dollar-BSD</item>
         <item>BTC-Bitcoin-BTC</item>
         <item>BTN-Bhutanese Ngultrum-BTN</item>
-        <item>BWP-Botswanan Pula-BWP</item>
-        <item>BYN-Belarusian Ruble-BYN</item>
-        <item>BYR-Belarusian Ruble-BYR</item>
         <item>BZD-Belize Dollar-BZD</item>
         <item>CAD-Canadian Dollar-CAD</item>
         <item>CDF-Congolese Franc-CDF</item>
@@ -45,7 +41,6 @@
         <item>CUP-Cuban Peso-CUP</item>
         <item>CVE-Cape Verdean Escudo-CVE</item>
         <item>CZK-Czech Republic Koruna-CZK</item>
-        <item>DJF-Djiboutian Franc-DJF</item>
         <item>DKK-Danish Krone-DKK</item>
         <item>DOP-Dominican Peso-DOP</item>
         <item>DZD-Algerian Dinar-DZD</item>

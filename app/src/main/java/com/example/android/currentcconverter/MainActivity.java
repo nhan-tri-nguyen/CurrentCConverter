@@ -1,6 +1,7 @@
 package com.example.android.currentcconverter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,16 +10,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    static ArrayList<String> currencies = new ArrayList<>();
+    static ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabbar);
         tabLayout.setupWithViewPager(viewPager);
+
+        //Initialize string currencies_array
+        Resources res = getResources();
+        String[] currencies = res.getStringArray(R.array.currencies_array);
+
     }
 
 
