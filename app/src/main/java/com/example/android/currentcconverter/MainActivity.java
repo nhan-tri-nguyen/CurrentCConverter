@@ -3,6 +3,7 @@ package com.example.android.currentcconverter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -59,12 +60,20 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabbar);
         tabLayout.setupWithViewPager(viewPager);
 
-        //Initialize string currencies_array
+        //Initialize String[] currencies_array
         Resources res = getResources();
         String[] currencies = res.getStringArray(R.array.currencies_array);
 
-        //Set up currenciesList
-        currenciesList.add(new CurrentC(getName(currencies[0]), getAbbreviation(currencies[0]), R.drawable.afghanistan));
+        //Initialize TypedArray for flags images
+        TypedArray flags = res.obtainTypedArray(R.array.flags);
+
+        //Set up currenciesList for the selectionCountry
+        for (int i = 0; i < currencies.length; ++i) {
+            currenciesList.
+                    add(new CurrentC(getName(currencies[i]),
+                            getAbbreviation(currencies[i]),
+                            flags.getResourceId(i, -1)));
+        }
     }
 
 
