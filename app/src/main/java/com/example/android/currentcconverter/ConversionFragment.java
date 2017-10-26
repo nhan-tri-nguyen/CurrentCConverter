@@ -2,6 +2,7 @@ package com.example.android.currentcconverter;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class ConversionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_conversion, container, false);
         inputTextView = (TextView) view.findViewById(R.id.inputTextView);
         outputTextView = (TextView) view.findViewById(R.id.outputTextView);
+        //Log.i("another things", String.valueOf(inputTextView));
         outputTextView.setText(inputTextView.getText().toString());
         new ConversionGetUrl().execute("http://www.apilayer.net/api/live?access_key=24775a3235b8dde4dddf11ade489004a&format=1");
         return view;

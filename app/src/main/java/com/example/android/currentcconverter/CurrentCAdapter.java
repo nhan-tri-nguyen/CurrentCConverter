@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * Created by ngtrnhan1205 on 10/25/17.
  */
 
-public class CurrentCApadter extends ArrayAdapter<CurrentC> {
+public class CurrentCAdapter extends ArrayAdapter<CurrentC> {
 
     //Set up CurrentCAdapter
-    public CurrentCApadter (Activity context, ArrayList<CurrentC> currentCArrayList) {
+    public CurrentCAdapter (Activity context, ArrayList<CurrentC> currentCArrayList) {
         super(context, 0, currentCArrayList);
     }
 
