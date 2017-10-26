@@ -29,7 +29,7 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
 
-        favCurrencyImageView = (ImageView) view.findViewById(R.id.favCurrencyImageView);
+        favCurrencyImageView = view.findViewById(R.id.favCurrencyImageView);
         favCurrencyImageView.setOnClickListener(this);
         return view;
     }

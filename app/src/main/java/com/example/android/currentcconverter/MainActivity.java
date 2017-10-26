@@ -30,6 +30,19 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
     static CurrentCAdapter currentCAdapter;
 
+    public String getAbbreviation(String s) {
+        String result = "";
+        for (int i = 0; i < 3; i++) result += s.charAt(i);
+        return  result;
+    }
+
+    public String getName(String s) {
+        String result = "";
+        for (int i = 4; i < s.length() - 4; ++i)
+            result += s.charAt(i);
+        return  result;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         String[] currencies = res.getStringArray(R.array.currencies_array);
 
         //Set up currenciesList
-        currenciesList.add(new CurrentC(currencies[0], currencies[0], R.drawable.afghanistan));
+        currenciesList.add(new CurrentC(getName(currencies[0]), getAbbreviation(currencies[0]), R.drawable.afghanistan));
     }
 
 

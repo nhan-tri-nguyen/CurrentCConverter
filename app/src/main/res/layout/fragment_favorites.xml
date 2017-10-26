@@ -57,11 +57,11 @@
                     android:drawableTint="@color/primaryTextColor"
                     android:ems="10"
                     android:inputType="numberDecimal"
-                    android:textCursorDrawable="@drawable/cursor_style"
                     android:textAlignment="center"
                     android:textColor="@color/primaryTextColor"
                     android:textColorHighlight="@color/primaryTextColor"
                     android:textColorLink="@color/primaryTextColor"
+                    android:textCursorDrawable="@null"
                     android:textSize="24sp" />
 
                 <TextView
