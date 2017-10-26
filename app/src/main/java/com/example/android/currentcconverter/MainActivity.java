@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         String[] currencies = res.getStringArray(R.array.currencies_array);
 
         //Set up currenciesList
-        //currenciesList.add();
+        currenciesList.add(new CurrentC(currencies[0], currencies[0], R.drawable.afghanistan));
     }
 
 
