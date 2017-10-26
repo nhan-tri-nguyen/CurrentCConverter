@@ -4,7 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_conversion">conversion</string>
-    <string name="fragment_favorite">favorite</string>
+    <string name="fragment_favorite">favorites</string>
     <string-array name="currencies_array">
         <item>AED-United Arab Emirates Dirham-AED</item>
         <item>AFN-Afghan Afghani-AFN</item>

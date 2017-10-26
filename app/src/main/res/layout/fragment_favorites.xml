@@ -53,11 +53,15 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/primaryTextColor"
+                    android:drawableTint="@color/primaryTextColor"
                     android:ems="10"
-                    android:padding="0dp"
+                    android:inputType="numberDecimal"
+                    android:textCursorDrawable="@drawable/cursor_style"
                     android:textAlignment="center"
                     android:textColor="@color/primaryTextColor"
-                    android:inputType="numberDecimal"
+                    android:textColorHighlight="@color/primaryTextColor"
+                    android:textColorLink="@color/primaryTextColor"
                     android:textSize="24sp" />
 
                 <TextView
@@ -76,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top|left"
-            android:layout_weight="4"
+            android:layout_weight="5"
             android:padding="0dp"
             android:paddingLeft="30dp"
             android:text="      Canadian Dollar"
