@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/flagImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1.2"
         app:srcCompat="@drawable/canada" />
 
@@ -26,10 +26,9 @@
         android:id="@+id/nameTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="20dp"
         android:layout_weight="0.5"
         android:gravity="right|center"
         android:text="TextView"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>
