@@ -6,6 +6,7 @@
     <string name="fragment_conversion">conversion</string>
     <string name="fragment_favorite">favorites</string>
     <string-array name="currencies_array">
+        <item>BTC-Bitcoin-BTC</item>
         <item>AFN-Afghan Afghani-AFN</item>
         <item>ALL-Albanian Lek-ALL</item>
         <item>DZD-Algerian Dinar-DZD</item>
@@ -22,7 +23,6 @@
         <item>BND-Brunei Dollar-BND</item>
         <item>BGN-Bulgarian Lev-BGN</item>
         <item>BIF-Burundian Franc-BIF</item>
-        <item>BTC-Bitcoin-BTC</item>***
         <item>KHR-Cambodian Riel-KHR</item>
         <item>CAD-Canadian Dollar-CAD</item>
         <item>CVE-Cape Verdean Escudo-CVE</item>
@@ -134,9 +134,6 @@
         <item>YER-Yemeni Rial-YER</item>
         <item>ZMW-Zambian Kwacha-ZWL</item>
         <item>ZWL-Zimbabwean Dollar-ZWL</item>
-        <item>XAG-Silver (troy ounce)-XAG</item>
-        <item>XAU-Gold (troy ounce)-XAU</item>
-
     </string-array>
 
 </resources>
