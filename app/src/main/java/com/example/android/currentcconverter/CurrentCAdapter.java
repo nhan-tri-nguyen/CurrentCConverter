@@ -50,7 +50,7 @@ public class CurrentCAdapter extends ArrayAdapter<CurrentC> {
             viewHolder = (ViewHolder) listItemView.getTag();
         }
 
-        // Get the {@link AndroidFlavor} object located at this position in the list
+        // Get the object located at this position in the list
         CurrentC currentC = getItem(position);
 
         //Set nameTextView in list_item
