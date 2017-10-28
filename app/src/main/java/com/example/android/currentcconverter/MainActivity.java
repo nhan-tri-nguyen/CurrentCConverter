@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
     static CurrentCAdapter currentCAdapter;
+    static int position;
+    static int state;
 
     public String getAbbreviation(String s) {
         String result = "";
@@ -76,16 +78,23 @@ public class MainActivity extends AppCompatActivity {
 
         //Get back response from CountrySelection after choosing a country
         Intent intent = getIntent();
-        int position = intent.getIntExtra("position", -1);
+        position = intent.getIntExtra("position", -1);
+        /*
+        fromFragment == 0: mainCountry in conversion
+                     == 1: favCountry in favorites
+                     == 2: subCountry in conversion
+        */
         int fromFragment = intent.getIntExtra("from", -1);
-        //Show error if it occurred
+
         if (position == -1 || fromFragment == -1) {
+            //Show error if it occurred
             Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_LONG);
         }
         else {
 
             //Returning to the conversion tab
-            viewPager.setCurrentItem(fromFragment);
+            if (fromFragment == 2) viewPager.setCurrentItem(0);
+            else viewPager.setCurrentItem(fromFragment);
         }
     }
 

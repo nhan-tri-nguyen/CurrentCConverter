@@ -39,7 +39,10 @@ public class ConversionFragment extends Fragment implements OnClickListener{
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), CountrySelection.class);
-        intent.putExtra("fragment", 0);
+        if (subCountryImageView == v){
+            intent.putExtra("fragment", 2);
+        }
+        else intent.putExtra("fragment", 0);
         startActivity(intent);
     }
 

@@ -27,7 +27,6 @@ public class CountrySelection extends AppCompatActivity {
 
                 Intent intent = getIntent();
                 int fromFragment = intent.getIntExtra("fragment", -1);
-                Log.i("anything", String.valueOf(fromFragment));
                 if (fromFragment == -1) return;
                 intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("from", fromFragment);
