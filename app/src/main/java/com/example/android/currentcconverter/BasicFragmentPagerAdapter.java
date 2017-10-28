@@ -25,7 +25,7 @@ public class BasicFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return  new ConversionFragment();
+                return new ConversionFragment();
             case 1:
                 return new FavoritesFragment();
         }

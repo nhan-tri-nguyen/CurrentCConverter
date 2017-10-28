@@ -37,6 +37,7 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), CountrySelection.class);
+        intent.putExtra("fragment", 1);
         startActivity(intent);
     }
 }

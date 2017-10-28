@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -51,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Set up viewpager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-
         BasicFragmentPagerAdapter myAdapter = new BasicFragmentPagerAdapter(this, getSupportFragmentManager());
-
         viewPager.setAdapter(myAdapter);
 
         // Give the TabLayout the ViewPager
@@ -73,6 +72,20 @@ public class MainActivity extends AppCompatActivity {
                     add(new CurrentC(getName(currencies[i]),
                             getAbbreviation(currencies[i]),
                             flags.getResourceId(i, -1)));
+        }
+
+        //Get back response from CountrySelection after choosing a country
+        Intent intent = getIntent();
+        int position = intent.getIntExtra("position", -1);
+        int fromFragment = intent.getIntExtra("from", -1);
+        //Show error if it occurred
+        if (position == -1 || fromFragment == -1) {
+            Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_LONG);
+        }
+        else {
+
+            //Returning to the conversion tab
+            viewPager.setCurrentItem(fromFragment);
         }
     }
 
