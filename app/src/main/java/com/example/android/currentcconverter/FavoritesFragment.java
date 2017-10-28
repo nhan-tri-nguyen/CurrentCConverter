@@ -39,8 +39,8 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
         favCurrencyImageView.setOnClickListener(this);
 
         //Render after choosing a currency
-        int myPosition = MainActivity.position;
-        if (MainActivity.fromFragment == 1 && myPosition != -1) {
+        int myPosition = MainActivity.positionArr[1];
+        if (myPosition != -1) {
             CurrentC myCurrency = MainActivity.currenciesList.get(myPosition);
             favCurrencyImageView.setImageResource(myCurrency.getFlagResourcesId());
             countryNameTextView.setText(myCurrency.getCurrentCName());

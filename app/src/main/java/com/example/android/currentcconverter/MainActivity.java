@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
     static CurrentCAdapter currentCAdapter;
-    static int position;
+    static int[] positionArr = {-1, -1, -1};
     static int fromFragment;
 
     public String getAbbreviation(String s) {
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Get back response from CountrySelection after choosing a country
         Intent intent = getIntent();
-        position = intent.getIntExtra("position", -1);
+        int position = intent.getIntExtra("position", -1);
         /*
         fromFragment == 0: mainCountry in conversion
                      == 1: favCountry in favorites
@@ -93,8 +93,14 @@ public class MainActivity extends AppCompatActivity {
         else {
 
             //Returning to the previous tab
-            if (fromFragment == 2) viewPager.setCurrentItem(0);
-            else viewPager.setCurrentItem(fromFragment);
+            if (fromFragment == 2) {
+                viewPager.setCurrentItem(0);
+                positionArr[fromFragment] = position;
+            }
+            else {
+                viewPager.setCurrentItem(fromFragment);
+                positionArr[fromFragment] = position;
+            }
         }
     }
 
