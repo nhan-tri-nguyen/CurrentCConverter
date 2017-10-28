@@ -33,7 +33,7 @@ public class CurrentC {
         return currentCAbbreviations;
     }
 
-    //Get flag's image resourcesid
+    //Get flag's image resources id
     public int getFlagResourcesId() {
         return flagResourcesId;
     }

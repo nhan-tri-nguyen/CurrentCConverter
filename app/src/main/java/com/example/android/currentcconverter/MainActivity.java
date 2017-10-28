@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
     static CurrentCAdapter currentCAdapter;
     static int position;
-    static int state;
+    static int fromFragment;
 
     public String getAbbreviation(String s) {
         String result = "";
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                      == 1: favCountry in favorites
                      == 2: subCountry in conversion
         */
-        int fromFragment = intent.getIntExtra("from", -1);
+        fromFragment = intent.getIntExtra("from", -1);
 
         if (position == -1 || fromFragment == -1) {
             //Show error if it occurred
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
 
-            //Returning to the conversion tab
+            //Returning to the previous tab
             if (fromFragment == 2) viewPager.setCurrentItem(0);
             else viewPager.setCurrentItem(fromFragment);
         }
