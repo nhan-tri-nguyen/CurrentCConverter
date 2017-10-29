@@ -5,6 +5,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_conversion">conversion</string>
     <string name="fragment_favorite">favorites</string>
+    <string name="action_search">search_box</string>
+    <string name="search_hint">Search currency</string>
     <string-array name="currencies_array">
         <item>BTC-Bitcoin-BTC</item>
         <item>AFN-Afghan Afghani-AFN</item>
