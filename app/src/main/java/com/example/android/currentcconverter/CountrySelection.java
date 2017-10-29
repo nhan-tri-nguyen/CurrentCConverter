@@ -42,6 +42,7 @@ public class CountrySelection extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        onNewIntent(getIntent());
     }
 
     @Override
@@ -70,7 +71,12 @@ public class CountrySelection extends AppCompatActivity {
         // Get the intent, verify the action and get the query
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            // doMySearch(query);
+            doMySearch(query);
         }
+    }
+
+    private void doMySearch(String query) {
+        MainActivity.currentCAdapter.getFilter().filter(query);
+        Log.i("Really?", query);
     }
 }
