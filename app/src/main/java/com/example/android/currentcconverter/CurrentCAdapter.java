@@ -91,12 +91,31 @@ public class CurrentCAdapter extends ArrayAdapter<CurrentC> implements Filterabl
     }
 
     private boolean match(CharSequence constraint, String data) {
-        int limit = 10000;
+        //Checking if data has characters of constraint (both upper and lower case
+        int limit = 60;
         int[] distribution = new int[limit];
-        for (int i = 0; i < constraint.length(); ++i)
-            distribution[(int)constraint.charAt(i)]++;
-        for (int i = 0; i < data.length(); ++i)
-            distribution[(int)data.charAt(i)]--;
+        for (int i = 0; i < constraint.length(); ++i) {
+            int charNum = (int) constraint.charAt(i);
+            if (charNum > 64 && charNum < 91) {
+                distribution[charNum - 65]++;
+                distribution[charNum - 39]++;
+            }
+            if (charNum > 96 && charNum < 123) {
+                distribution[charNum - 71]++;
+                distribution[charNum - 97]++;
+            }
+        }
+        for (int i = 0; i < data.length(); ++i){
+            int charNum = (int) data.charAt(i);
+            if (charNum > 64 && charNum < 91) {
+                distribution[charNum - 65]--;
+                distribution[charNum - 39]--;
+            }
+            if (charNum > 96 && charNum < 123) {
+                distribution[charNum - 71]--;
+                distribution[charNum - 97]--;
+            }
+        }
         for (int i =0; i < limit; ++i)
             if (distribution[i] > 0) return false;
         return true;
