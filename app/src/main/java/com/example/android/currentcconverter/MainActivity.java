@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
     static CurrentCAdapter currentCAdapter;
-    static int[] positionArr = {-1, -1, -1};
+    //Set default with Canadian Dollar and Vietnamese Dong
+    static int[] positionArr = {16, 16, 120};
     static int fromFragment;
 
     public String getAbbreviation(String s) {
