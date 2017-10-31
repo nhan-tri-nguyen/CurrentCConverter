@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     //Set default with Canadian Dollar and Vietnamese Dong
     static int[] positionArr = {16, 16, 120};
     static int fromFragment;
+    public static final String ACCESS_KEY = "060cdd5f28bcadbeea155864b0bb2501";
+    public static final String BASE_URL = "http://apilayer.net/api/";
+    public static final String ENDPOINT = "live";
 
     public String getAbbreviation(String s) {
         String result = "";

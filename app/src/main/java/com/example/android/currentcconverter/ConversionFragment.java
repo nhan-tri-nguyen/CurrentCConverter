@@ -12,8 +12,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+import static java.lang.Math.round;
 
 /**
  * Created by ngtrnhan1205 on 10/21/17.
@@ -41,6 +49,8 @@ public class ConversionFragment extends Fragment implements OnClickListener{
             subCountryImageView.setImageResource(myCurrency2.getFlagResourcesId());
             abbrSubTextView.setText(myCurrency2.getCurrentCAbbreviations());
         }
+        new ConversionGetUrl().execute(MainActivity.BASE_URL +
+                MainActivity.ENDPOINT + "?access_key=" +MainActivity.ACCESS_KEY);
     }
 
     @Override
@@ -67,9 +77,6 @@ public class ConversionFragment extends Fragment implements OnClickListener{
             }
         });
 
-        outputTextView.setText(inputTextView.getText().toString());
-        new ConversionGetUrl().execute("http://www.apilayer.net/api/live?access_key=24775a3235b8dde4dddf11ade489004a&format=1");
-
         setInfo();
         return view;
     }
@@ -88,7 +95,22 @@ public class ConversionFragment extends Fragment implements OnClickListener{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            outputTextView.setText(s);
+            try {
+
+                String subCurrency = "USD" + abbrSubTextView.getText().toString();
+                String mainCurrency = "USD" + abbrMainTextView.getText().toString();
+                JSONObject jsonObject = new JSONObject(s);
+                JSONObject currency = jsonObject.getJSONObject("quotes");
+                double answer = currency.getDouble(subCurrency) / currency.getDouble(mainCurrency);
+                answer *= Double.parseDouble(inputTextView.getText().toString());
+                DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+                decimalFormat.setRoundingMode(RoundingMode.FLOOR);
+                String finalAnswer = decimalFormat.format(answer);
+                outputTextView.setText(finalAnswer);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

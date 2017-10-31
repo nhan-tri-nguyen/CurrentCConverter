@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
     ImageView favCurrencyImageView;
     TextView countryNameTextView;
     TextView abbrCurrencyTextView;
+    FloatingActionButton addFab;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
@@ -36,7 +38,17 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
         favCurrencyImageView = view.findViewById(R.id.favCurrencyImageView);
         countryNameTextView = view.findViewById(R.id.countryNameTextView);
         abbrCurrencyTextView = view.findViewById(R.id.abbrCurrencyTextView);
+        addFab = view.findViewById(R.id.addFab);
+
         favCurrencyImageView.setOnClickListener(this);
+        addFab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CountrySelection.class);
+                intent.putExtra("fragment", 3);
+                startActivity(intent);
+            }
+        });
 
         //Render after choosing a currency
         int myPosition = MainActivity.positionArr[1];
