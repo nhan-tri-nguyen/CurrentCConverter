@@ -29,12 +29,15 @@ public class CurrentCAdapter extends ArrayAdapter<CurrentC> implements Filterabl
 
     private ArrayList<CurrentC> originalList;
     private ArrayList<CurrentC> filteredList;
+    private int [] newPositionArr = MainActivity.positionArr;
 
     //Set up CurrentCAdapter
     public CurrentCAdapter (Activity context, ArrayList<CurrentC> currentCArrayList) {
         super(context, 0, currentCArrayList);
         originalList = currentCArrayList;
         filteredList = currentCArrayList;
+        //Reset filteredPosArr
+        for (int i = 0; i < 200; ++i) MainActivity.filteredPosArr[i] = i;
     }
 
     @Override
@@ -135,12 +138,14 @@ public class CurrentCAdapter extends ArrayAdapter<CurrentC> implements Filterabl
                 }
                 else {
                     ArrayList<CurrentC> filteredData = new ArrayList<>();
+                    int counter = 0;
 
                     for (int i = 0; i < originalList.size(); ++i) {
                         CurrentC object = originalList.get(i);
                         if (match(constraint, object.getCurrentCName()) ||
                                 match(constraint, object.getCurrentCAbbreviations())){
                             filteredData.add(object);
+                            MainActivity.filteredPosArr[counter++] = i;
                         }
                     }
                     filterResults.values = filteredData;

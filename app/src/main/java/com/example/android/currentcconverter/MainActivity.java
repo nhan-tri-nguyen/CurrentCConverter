@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     static CurrentCAdapter currentCAdapter;
     //Set default with Canadian Dollar and Vietnamese Dong
     static int[] positionArr = {16, 16, 120};
+    static int[] filteredPosArr = new int[200];
     static int fromFragment;
     public static final String ACCESS_KEY = "060cdd5f28bcadbeea155864b0bb2501";
     public static final String BASE_URL = "http://apilayer.net/api/";
@@ -74,11 +75,13 @@ public class MainActivity extends AppCompatActivity {
         TypedArray flags = res.obtainTypedArray(R.array.flags);
 
         //Set up currenciesList for the selectionCountry
-        for (int i = 0; i < currencies.length; ++i) {
-            currenciesList.
-                    add(new CurrentC(getName(currencies[i]),
-                            getAbbreviation(currencies[i]),
-                            flags.getResourceId(i, -1)));
+        if (currenciesList.size() == 0) {
+            for (int i = 0; i < currencies.length; ++i) {
+                currenciesList.
+                        add(new CurrentC(getName(currencies[i]),
+                                getAbbreviation(currencies[i]),
+                                flags.getResourceId(i, -1)));
+            }
         }
 
         //Get back response from CountrySelection after choosing a country
@@ -100,11 +103,11 @@ public class MainActivity extends AppCompatActivity {
             //Returning to the previous tab
             if (fromFragment == 2) {
                 viewPager.setCurrentItem(0);
-                positionArr[fromFragment] = position;
+                positionArr[fromFragment] = filteredPosArr[position];
             }
             else {
                 viewPager.setCurrentItem(fromFragment);
-                positionArr[fromFragment] = position;
+                positionArr[fromFragment] = filteredPosArr[position];
             }
         }
     }

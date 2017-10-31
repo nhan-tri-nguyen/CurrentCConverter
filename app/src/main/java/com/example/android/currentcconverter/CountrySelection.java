@@ -17,15 +17,9 @@ import android.widget.SearchView.OnQueryTextListener;
 
 public class CountrySelection extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_country_selection);
+    ListView selectionListView;
 
-        //Set up selectionListView
-        ListView selectionListView = (ListView) findViewById(R.id.selectionListView);
-        MainActivity.currentCAdapter =
-                new CurrentCAdapter(this, MainActivity.currenciesList);
+    private void setSelectionView() {
         selectionListView.setAdapter(MainActivity.currentCAdapter);
 
         //Send info back to the previous fragment when list item is pressed
@@ -35,6 +29,7 @@ public class CountrySelection extends AppCompatActivity {
 
                 Intent intent = getIntent();
                 int fromFragment = intent.getIntExtra("fragment", -1);
+                Log.i("anything", String.valueOf(fromFragment));
                 if (fromFragment == -1) return;
                 intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("from", fromFragment);
@@ -42,6 +37,16 @@ public class CountrySelection extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_country_selection);
+        MainActivity.currentCAdapter =
+                new CurrentCAdapter(this, MainActivity.currenciesList);
+        selectionListView = (ListView) findViewById(R.id.selectionListView);
+        setSelectionView();
         onNewIntent(getIntent());
     }
 
@@ -62,6 +67,7 @@ public class CountrySelection extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        intent.putExtra("fragment", getIntent().getIntExtra("fragment",-1));
         setIntent(intent);
         handleIntent(intent);
         super.onNewIntent(intent);
@@ -77,6 +83,6 @@ public class CountrySelection extends AppCompatActivity {
 
     private void doMySearch(String query) {
         MainActivity.currentCAdapter.getFilter().filter(query);
-        Log.i("Really?", query);
+        setSelectionView();
     }
 }
