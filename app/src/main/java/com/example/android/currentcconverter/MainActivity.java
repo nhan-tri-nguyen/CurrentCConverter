@@ -101,7 +101,10 @@ public class MainActivity extends AppCompatActivity {
         else {
 
             //Returning to the previous tab
-            if (fromFragment == 2) {
+            if (fromFragment == 3){
+
+            }
+            else if (fromFragment == 2) {
                 viewPager.setCurrentItem(0);
                 positionArr[fromFragment] = filteredPosArr[position];
             }

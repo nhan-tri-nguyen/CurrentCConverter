@@ -31,6 +31,18 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
     TextView countryNameTextView;
     TextView abbrCurrencyTextView;
     FloatingActionButton addFab;
+
+    private void setView() {
+        //Render after choosing a currency
+        int myPosition = MainActivity.positionArr[1];
+        if (myPosition != -1) {
+            CurrentC myCurrency = MainActivity.currenciesList.get(myPosition);
+            favCurrencyImageView.setImageResource(myCurrency.getFlagResourcesId());
+            countryNameTextView.setText(myCurrency.getCurrentCName());
+            abbrCurrencyTextView.setText(myCurrency.getCurrentCAbbreviations());
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
@@ -49,15 +61,7 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
             }
         });
-
-        //Render after choosing a currency
-        int myPosition = MainActivity.positionArr[1];
-        if (myPosition != -1) {
-            CurrentC myCurrency = MainActivity.currenciesList.get(myPosition);
-            favCurrencyImageView.setImageResource(myCurrency.getFlagResourcesId());
-            countryNameTextView.setText(myCurrency.getCurrentCName());
-            abbrCurrencyTextView.setText(myCurrency.getCurrentCAbbreviations());
-        }
+        setView();
         return view;
     }
 
