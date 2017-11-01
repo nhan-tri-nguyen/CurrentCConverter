@@ -2,6 +2,7 @@ package com.example.android.currentcconverter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
@@ -31,10 +32,11 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    SharedPreferences sharedPreferences;
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
     static CurrentCAdapter currentCAdapter;
     //Set default with Canadian Dollar and Vietnamese Dong
-    static int[] positionArr = {16, 16, 120};
+    static int[] positionArr = new int[3];
     static int[] filteredPosArr = new int[200];
     static int fromFragment;
     public static final String ACCESS_KEY = "060cdd5f28bcadbeea155864b0bb2501";
@@ -54,10 +56,17 @@ public class MainActivity extends AppCompatActivity {
         return  result;
     }
 
+    private void initializePreviousInfo() {
+        positionArr[0] = sharedPreferences.getInt("main",16);
+        positionArr[2] = sharedPreferences.getInt("sub",16);
+        positionArr[1] = sharedPreferences.getInt("favorites",16);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = this.getSharedPreferences("com.example.android.currentcconverter", Context.MODE_PRIVATE);
         //Set up viewpager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         BasicFragmentPagerAdapter myAdapter = new BasicFragmentPagerAdapter(this, getSupportFragmentManager());
@@ -84,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        initializePreviousInfo();
         //Get back response from CountrySelection after choosing a country
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", -1);
@@ -107,10 +117,17 @@ public class MainActivity extends AppCompatActivity {
             else if (fromFragment == 2) {
                 viewPager.setCurrentItem(0);
                 positionArr[fromFragment] = filteredPosArr[position];
+                sharedPreferences.edit().putInt("sub",positionArr[fromFragment]).apply();
             }
             else {
                 viewPager.setCurrentItem(fromFragment);
                 positionArr[fromFragment] = filteredPosArr[position];
+                if (fromFragment == 0) {
+                    sharedPreferences.edit().putInt("main",positionArr[fromFragment]).apply();
+                }
+                else {
+                    sharedPreferences.edit().putInt("favorites",positionArr[fromFragment]).apply();
+                }
             }
         }
     }
