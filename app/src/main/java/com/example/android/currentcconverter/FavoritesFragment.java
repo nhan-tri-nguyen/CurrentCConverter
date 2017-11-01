@@ -43,15 +43,14 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
-
+    private void findView(View view) {
         favCurrencyImageView = view.findViewById(R.id.favCurrencyImageView);
         countryNameTextView = view.findViewById(R.id.countryNameTextView);
         abbrCurrencyTextView = view.findViewById(R.id.abbrCurrencyTextView);
         addFab = view.findViewById(R.id.addFab);
+    }
 
+    private void setViewOnClickListener() {
         favCurrencyImageView.setOnClickListener(this);
         addFab.setOnClickListener(new OnClickListener() {
             @Override
@@ -61,6 +60,13 @@ public class FavoritesFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
+        findView(view);
+        setViewOnClickListener();
         setView();
         return view;
     }

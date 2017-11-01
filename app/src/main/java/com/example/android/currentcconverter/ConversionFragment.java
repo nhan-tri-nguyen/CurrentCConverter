@@ -55,9 +55,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                 MainActivity.ENDPOINT + "?access_key=" +MainActivity.ACCESS_KEY);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_conversion, container, false);
+    private void findView (View view) {
         inputTextView = view.findViewById(R.id.inputTextView);
         outputTextView = view.findViewById(R.id.outputTextView);
         mainCountryImageView = view.findViewById(R.id.mainCoutnryImageView);
@@ -65,7 +63,9 @@ public class ConversionFragment extends Fragment implements OnClickListener{
         subCountryImageView = view.findViewById(R.id.subCountryImageView);
         abbrSubTextView = view.findViewById(R.id.abbrSubTextView);
         switchFab = view.findViewById(R.id.switchFab);
+    }
 
+    private void setViewOnClickListener() {
         //Set view to OnClickListener
         mainCountryImageView.setOnClickListener(this);
         subCountryImageView.setOnClickListener(this);
@@ -82,7 +82,13 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                 setInfo();
             }
         });
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_conversion, container, false);
+        findView(view);
+        setViewOnClickListener();
         setInfo();
         return view;
     }
@@ -92,8 +98,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
         Intent intent = new Intent(getActivity(), CountrySelection.class);
         if (subCountryImageView == v){
             intent.putExtra("fragment", 2);
-        }
-        else intent.putExtra("fragment", 0);
+        } else intent.putExtra("fragment", 0);
         startActivity(intent);
     }
 
@@ -102,18 +107,22 @@ public class ConversionFragment extends Fragment implements OnClickListener{
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-
-                String subCurrency = "USD" + abbrSubTextView.getText().toString();
-                String mainCurrency = "USD" + abbrMainTextView.getText().toString();
-                JSONObject jsonObject = new JSONObject(s);
-                JSONObject currency = jsonObject.getJSONObject("quotes");
-                double answer = currency.getDouble(subCurrency) / currency.getDouble(mainCurrency);
-                answer *= Double.parseDouble(inputTextView.getText().toString());
-                DecimalFormat decimalFormat = new DecimalFormat("#.#####");
-                decimalFormat.setRoundingMode(RoundingMode.FLOOR);
-                String finalAnswer = decimalFormat.format(answer);
-                outputTextView.setText(finalAnswer);
-
+                if (s != null) {
+                    // Find ratio of main and sub to USD
+                    String subCurrency = "USD" + abbrSubTextView.getText().toString();
+                    String mainCurrency = "USD" + abbrMainTextView.getText().toString();
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONObject currency = jsonObject.getJSONObject("quotes");
+                    // Calculate ratio sub to main and set to View
+                    double answer = currency.getDouble(subCurrency) / currency.getDouble(mainCurrency);
+                    answer *= Double.parseDouble(inputTextView.getText().toString());
+                    DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+                    decimalFormat.setRoundingMode(RoundingMode.FLOOR);
+                    String finalAnswer = decimalFormat.format(answer);
+                    outputTextView.setText(finalAnswer);
+                } else {
+                    Toast.makeText(getContext(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
