@@ -1,6 +1,8 @@
 package com.example.android.currentcconverter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -73,6 +75,10 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                 int tmp = MainActivity.positionArr[0];
                 MainActivity.positionArr[0] = MainActivity.positionArr[2];
                 MainActivity.positionArr[2] = tmp;
+                SharedPreferences sharedPreferences =
+                        getActivity().getSharedPreferences("com.example.android.currentcconverter", Context.MODE_PRIVATE);
+                sharedPreferences.edit().putInt("main",MainActivity.positionArr[0]).apply();
+                sharedPreferences.edit().putInt("sub",MainActivity.positionArr[2]).apply();
                 setInfo();
             }
         });
