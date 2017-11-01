@@ -1,3 +1,7 @@
 # CurrentCConverter
-Android app
-I am developing the very first android app for practicing. I would hope that it'll be done soon
+Android App:
+
+Supporting the conversion of over 120 countries' currencies and more such as Bitcoin.
+
+# Icons
+All the icon I'm using in this app can be found here: https://www.flaticon.com/packs/countrys-flags
