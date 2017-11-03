@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
-    static CurrentCAdapter currentCAdapter;
     //Set default with Canadian Dollar and Vietnamese Dong
     static int[] positionArr = new int[3];
     static int[] filteredPosArr = new int[200];

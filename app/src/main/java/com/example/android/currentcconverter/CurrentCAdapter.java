@@ -1,8 +1,10 @@
 package com.example.android.currentcconverter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,37 +20,64 @@ import java.util.ArrayList;
  * Created by ngtrnhan1205 on 10/25/17.
  */
 
-public class CurrentCAdapter extends ArrayAdapter<CurrentC> implements Filterable{
-
-    //Set up a ViewHolder to enhance scrolling performance
-    private static class ViewHolder {
-        TextView nameTextView;
-        TextView abbrTextView;
-        ImageView flagImageView;
-    }
+public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.CurrentCViewHolder> implements Filterable{
 
     private ArrayList<CurrentC> originalList;
     private ArrayList<CurrentC> filteredList;
-    private int [] newPositionArr = MainActivity.positionArr;
+    final private ListItemClickListener mOnClickListener;
 
-    //Set up CurrentCAdapter
-    public CurrentCAdapter (Activity context, ArrayList<CurrentC> currentCArrayList) {
-        super(context, 0, currentCArrayList);
+    public interface ListItemClickListener {
+        void onListItemClick(int postion);
+    }
+
+    // Set up a ViewHolder to enhance scrolling performance
+    class CurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        TextView nameTextView;
+        TextView abbrTextView;
+        ImageView flagImageView;
+        public CurrentCViewHolder(View itemView) {
+            super(itemView);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
+            abbrTextView = itemView.findViewById(R.id.abbrTextView);
+            flagImageView = itemView.findViewById(R.id.flagImageView);
+            itemView.setOnClickListener(this);
+        }
+
+        void bindData(CurrentC currentC) {
+            nameTextView.setText(currentC.getCurrentCName());
+            abbrTextView.setText(currentC.getCurrentCAbbreviations());
+            flagImageView.setImageResource(currentC.getFlagResourcesId());
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mOnClickListener.onListItemClick(position);
+        }
+    }
+
+    // CurrentCAdapter constructor
+    public CurrentCAdapter (ArrayList<CurrentC> currentCArrayList, ListItemClickListener listener) {
         originalList = currentCArrayList;
         filteredList = currentCArrayList;
+        mOnClickListener = listener;
         //Reset filteredPosArr
         for (int i = 0; i < 200; ++i) MainActivity.filteredPosArr[i] = i;
     }
 
     @Override
-    public int getCount() {
-        return filteredList.size();
+    public CurrentCViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.list_item, parent, false);
+        CurrentCViewHolder viewHolder = new CurrentCViewHolder(view);
+        return viewHolder;
     }
 
-    @Nullable
     @Override
-    public CurrentC getItem(int position) {
-        return filteredList.get(position);
+    public void onBindViewHolder(CurrentCViewHolder holder, int position) {
+        holder.bindData(filteredList.get(position));
     }
 
     @Override
@@ -57,44 +86,13 @@ public class CurrentCAdapter extends ArrayAdapter<CurrentC> implements Filterabl
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        //Check if the existing view is used, if not produces one
-        View listItemView = convertView;
-        ViewHolder viewHolder; //Look up cache stored in tag
-        if (listItemView == null) {
-            //Inflate using list_item.xml as layout
-            listItemView = LayoutInflater
-                    .from(getContext())
-                    .inflate(R.layout.list_item, parent, false);
-            viewHolder = new ViewHolder();
-
-            //Initialize View to set texts and images
-            viewHolder.nameTextView = listItemView.findViewById(R.id.nameTextView);
-            viewHolder.abbrTextView = listItemView.findViewById(R.id.abbrTextView);
-            viewHolder.flagImageView = listItemView.findViewById(R.id.flagImageView);
-            listItemView.setTag(viewHolder);
-        }
-        else {
-            viewHolder = (ViewHolder) listItemView.getTag();
-        }
-
-        // Get the object located at this position in the list
-        CurrentC currentC = filteredList.get(position);
-
-        //Set nameTextView in list_item
-        viewHolder.nameTextView.setText(currentC.getCurrentCName());
-
-        //Set abbrTextView in list_item
-        viewHolder.abbrTextView.setText(currentC.getCurrentCAbbreviations());
-
-        //Set image to flagImageView in list_item
-        viewHolder.flagImageView.setImageResource(currentC.getFlagResourcesId());
-
-        return listItemView;
+    public int getItemCount() {
+        return filteredList.size();
     }
 
+
     private boolean match(CharSequence constraint, String data) {
-        //Checking if data has characters of constraint (both upper and lower case
+        // Checking if data has characters of constraint (both upper and lower case
         int limit = 60;
         int[] distribution = new int[limit];
         for (int i = 0; i < constraint.length(); ++i) {

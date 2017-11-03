@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,38 +17,27 @@ import android.widget.ListView;
 import android.support.v7.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
-public class CountrySelection extends AppCompatActivity {
+public class CountrySelection extends AppCompatActivity implements CurrentCAdapter.ListItemClickListener{
 
-    ListView selectionListView;
-
-    private void setSelectionView() {
-        selectionListView.setAdapter(MainActivity.currentCAdapter);
-
-        //Send info back to the previous fragment when list item is pressed
-        selectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = getIntent();
-                int fromFragment = intent.getIntExtra("fragment", -1);
-                Log.i("anything", String.valueOf(fromFragment));
-                if (fromFragment == -1) return;
-                intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("from", fromFragment);
-                intent.putExtra("position", position);
-                startActivity(intent);
-            }
-        });
-    }
+   private RecyclerView selectionRecyclerView;
+   private CurrentCAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_selection);
-        MainActivity.currentCAdapter =
-                new CurrentCAdapter(this, MainActivity.currenciesList);
-        selectionListView = (ListView) findViewById(R.id.selectionListView);
-        setSelectionView();
+
+        selectionRecyclerView = (RecyclerView) findViewById(R.id.selectionRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        selectionRecyclerView.setLayoutManager(layoutManager);
+
+        // Increase performance if child layout has fixed size
+        selectionRecyclerView.setHasFixedSize(true);
+
+        // mAdapter is responsible for displaying item
+        mAdapter = new CurrentCAdapter(MainActivity.currenciesList,this);
+        selectionRecyclerView.setAdapter(mAdapter);
+
         onNewIntent(getIntent());
     }
 
@@ -82,7 +73,19 @@ public class CountrySelection extends AppCompatActivity {
     }
 
     private void doMySearch(String query) {
-        MainActivity.currentCAdapter.getFilter().filter(query);
-        setSelectionView();
+        mAdapter.getFilter().filter(query);
+        //setSelectionView();
+    }
+
+    @Override
+    public void onListItemClick(int position) {
+        // Returning result to the previous fragment;
+        Intent intent = getIntent();
+        int fromFragment = intent.getIntExtra("fragment", -1);
+        if (fromFragment == -1) return;
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("from", fromFragment);
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 }
