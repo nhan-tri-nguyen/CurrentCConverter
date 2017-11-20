@@ -1,10 +1,7 @@
 package com.example.android.currentcconverter;
 
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import java.io.IOException;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

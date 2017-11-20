@@ -6,24 +6,17 @@ import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import static java.lang.Math.round;
 
 /**
  * Created by ngtrnhan1205 on 10/21/17.
@@ -116,7 +109,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                     // Calculate ratio sub to main and set to View
                     double answer = currency.getDouble(subCurrency) / currency.getDouble(mainCurrency);
                     answer *= Double.parseDouble(inputTextView.getText().toString());
-                    DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+                    DecimalFormat decimalFormat = new DecimalFormat("#.##");
                     decimalFormat.setRoundingMode(RoundingMode.FLOOR);
                     String finalAnswer = decimalFormat.format(answer);
                     outputTextView.setText(finalAnswer);
