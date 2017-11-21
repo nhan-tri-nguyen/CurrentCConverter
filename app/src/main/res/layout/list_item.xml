@@ -17,9 +17,10 @@
         android:id="@+id/abbrTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1.2"
         android:gravity="left|center"
-        android:text="TextView"
+        android:text="ABC"
         android:textSize="18sp" />
 
     <TextView

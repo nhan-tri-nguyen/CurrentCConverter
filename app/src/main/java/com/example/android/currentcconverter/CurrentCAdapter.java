@@ -28,7 +28,7 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
     }
 
     // Set up a ViewHolder to enhance scrolling performance
-    class CurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class CurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nameTextView;
         TextView abbrTextView;

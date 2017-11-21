@@ -12,7 +12,7 @@ import java.util.Locale;
 
 public class BasicFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    Context mContext;
+    private Context mContext;
 
     public BasicFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);

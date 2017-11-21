@@ -26,7 +26,7 @@ public class FavCurrentCDbHelper extends SQLiteOpenHelper {
                 " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR + " TEXT NOT NULL, " +
                 FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID + " INTEGER NOT NULL, " +
-                FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT + " INTEGER NOT NULL" + ");";
+                FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL" + ");";
         db.execSQL(SQL_CREATE_FAV_CURRENCY_TABLE);
     }
 

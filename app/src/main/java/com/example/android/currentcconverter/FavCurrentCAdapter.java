@@ -32,7 +32,7 @@ public class FavCurrentCAdapter extends RecyclerView.Adapter<FavCurrentCAdapter.
         mOnClickListener = listener;
     }
 
-    class FavCurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
+    public class FavCurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
         TextView abbrTextView;
         TextView amountTextView;
         ImageView flagImageView;

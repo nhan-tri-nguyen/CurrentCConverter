@@ -1,8 +1,10 @@
 package com.example.android.currentcconverter;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
@@ -11,10 +13,14 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.android.currentcconverter.data.FavCurrentCContract;
@@ -30,12 +36,15 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     private TextView countryNameTextView;
     private TextView abbrCurrencyTextView;
     private FloatingActionButton addFab;
+    private EditText amountEditText;
     private SQLiteDatabase mDb;
     private FavCurrentCAdapter mAdapter;
     private RecyclerView favRecyclerView;
 
     private void Rendering() {
-        //Render for FavCur
+        // Render previous amount
+        amountEditText.setText(MainActivity.sharedPreferences.getString("amount",""));
+        // Render for FavCurrency
         int myPosition = MainActivity.positionArr[1];
         if (myPosition != -1) {
             CurrentC myCurrency = MainActivity.currenciesList.get(myPosition);
@@ -43,13 +52,8 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
             countryNameTextView.setText(myCurrency.getCurrentCName());
             abbrCurrencyTextView.setText(myCurrency.getCurrentCAbbreviations());
         }
-        // Render for FavList
-        myPosition = MainActivity.positionArr[3];
-        if (myPosition != -1) {
-            CurrentC currentC = MainActivity.currenciesList.get(myPosition);
-            addFavCurrentC(currentC.getCurrentCAbbreviations(), currentC.getFlagResourcesId(),100);
-            mAdapter.swapCursor(getFavCurrentC());
-        }
+        new FavoritesGetUrl().execute(MainActivity.BASE_URL +
+                MainActivity.ENDPOINT + "?access_key=" +MainActivity.ACCESS_KEY);
     }
 
     private void setAllViews(View view) {
@@ -68,6 +72,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         favCurrencyImageView = view.findViewById(R.id.favCurrencyImageView);
         countryNameTextView = view.findViewById(R.id.countryNameTextView);
         abbrCurrencyTextView = view.findViewById(R.id.abbrCurrencyTextView);
+        amountEditText = view.findViewById(R.id.amountEditText);
         addFab = view.findViewById(R.id.addFab);
     }
 
@@ -79,6 +84,19 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                 Intent intent = new Intent(getActivity(), CountrySelection.class);
                 intent.putExtra("fragment", 3);
                 startActivity(intent);
+            }
+        });
+        amountEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {return;}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {return;}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                MainActivity.sharedPreferences.edit().putString("amount",
+                        amountEditText.getText().toString()).apply();
             }
         });
     }
@@ -132,7 +150,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     */
 
 
-    private long addFavCurrentC(String abbr, int imgId, int amount) {
+    private long addFavCurrentC(String abbr, int imgId, double amount) {
 
         // Add info to content values and insert into database
         ContentValues contentValues = new ContentValues();
@@ -165,5 +183,31 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    private class FavoritesGetUrl extends GetUrl{
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                if (s != null) {
+                    // Render for FavList
+                    int myPos = MainActivity.positionArr[3];
+                    if (myPos != -1) {
+                        CurrentC currentC = MainActivity.currenciesList.get(myPos);
+                        // Get result from JSON
+                        String subAbbr = currentC.getCurrentCAbbreviations();
+                        ResultFromJSON res = new ResultFromJSON(abbrCurrencyTextView.getText().toString(),
+                                subAbbr, amountEditText.getText().toString());
+                        double amount = res.getNumResult(s);
+                        // Pass result into database
+                        addFavCurrentC(subAbbr, currentC.getFlagResourcesId(), amount);
+                        mAdapter.swapCursor(getFavCurrentC());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

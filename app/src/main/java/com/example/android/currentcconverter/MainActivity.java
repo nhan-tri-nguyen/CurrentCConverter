@@ -16,9 +16,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
+    static SharedPreferences sharedPreferences;
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
-    // Set default with Canadian Dollar and Vietnamese Dong
     // Array of the positions of all currencies
     static int[] positionArr = new int[4];
     // Keep track of the pos of currencies

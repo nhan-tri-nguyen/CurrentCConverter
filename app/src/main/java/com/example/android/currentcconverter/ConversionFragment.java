@@ -24,16 +24,16 @@ import java.text.DecimalFormat;
 
 public class ConversionFragment extends Fragment implements OnClickListener{
 
-    TextView inputTextView;
-    TextView outputTextView;
-    ImageView mainCountryImageView;
-    TextView abbrMainTextView;
-    ImageView subCountryImageView;
-    TextView abbrSubTextView;
-    FloatingActionButton switchFab;
+    private TextView inputTextView;
+    private TextView outputTextView;
+    private ImageView mainCountryImageView;
+    private TextView abbrMainTextView;
+    private ImageView subCountryImageView;
+    private TextView abbrSubTextView;
+    private FloatingActionButton switchFab;
 
     private void setInfo() {
-        //Render after choosing a currency
+        // Render after choosing a currency
         if (MainActivity.positionArr[0] != -1) {
             CurrentC myCurrency1 = MainActivity.currenciesList.get(MainActivity.positionArr[0]);
             mainCountryImageView.setImageResource(myCurrency1.getFlagResourcesId());
@@ -59,7 +59,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
     }
 
     private void setViewOnClickListener() {
-        //Set view to OnClickListener
+        // Set view to OnClickListener
         mainCountryImageView.setOnClickListener(this);
         subCountryImageView.setOnClickListener(this);
         switchFab.setOnClickListener(new OnClickListener() {
@@ -69,7 +69,8 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                 MainActivity.positionArr[0] = MainActivity.positionArr[2];
                 MainActivity.positionArr[2] = tmp;
                 SharedPreferences sharedPreferences =
-                        getActivity().getSharedPreferences("com.example.android.currentcconverter", Context.MODE_PRIVATE);
+                        getActivity().getSharedPreferences("com.example.android.currentcconverter",
+                                Context.MODE_PRIVATE);
                 sharedPreferences.edit().putInt("main",MainActivity.positionArr[0]).apply();
                 sharedPreferences.edit().putInt("sub",MainActivity.positionArr[2]).apply();
                 setInfo();
@@ -101,17 +102,10 @@ public class ConversionFragment extends Fragment implements OnClickListener{
             super.onPostExecute(s);
             try {
                 if (s != null) {
-                    // Find ratio of main and sub to USD
-                    String subCurrency = "USD" + abbrSubTextView.getText().toString();
-                    String mainCurrency = "USD" + abbrMainTextView.getText().toString();
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONObject currency = jsonObject.getJSONObject("quotes");
-                    // Calculate ratio sub to main and set to View
-                    double answer = currency.getDouble(subCurrency) / currency.getDouble(mainCurrency);
-                    answer *= Double.parseDouble(inputTextView.getText().toString());
-                    DecimalFormat decimalFormat = new DecimalFormat("#.##");
-                    decimalFormat.setRoundingMode(RoundingMode.FLOOR);
-                    String finalAnswer = decimalFormat.format(answer);
+                    ResultFromJSON res = new ResultFromJSON(abbrMainTextView.getText().toString(),
+                            abbrSubTextView.getText().toString(),
+                            inputTextView.getText().toString());
+                    String finalAnswer = res.getStrResult(s);
                     outputTextView.setText(finalAnswer);
                 } else {
                     Toast.makeText(getContext(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG);
