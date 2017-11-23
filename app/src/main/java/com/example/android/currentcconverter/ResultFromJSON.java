@@ -29,6 +29,7 @@ public class ResultFromJSON {
         JSONObject jsonObject = new JSONObject(s);
         JSONObject currency = jsonObject.getJSONObject("quotes");
         // Calculate ratio sub to main and set to View
+        if (mInput.trim().length() == 0) return 0;
         double res = currency.getDouble(subCurrency) / currency.getDouble(mainCurrency);
         res *= Double.parseDouble(mInput);
         return res;

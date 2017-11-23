@@ -1,6 +1,8 @@
 package com.example.android.currentcconverter;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
+
 import java.io.IOException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -10,7 +12,7 @@ import okhttp3.Response;
  * Created by ngtrnhan1205 on 10/24/17.
  */
 
-abstract class GetUrl extends AsyncTask<String, Void, String> {
+ public class GetUrl extends AsyncTask<String, Void, String> {
     OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
     @Override
@@ -26,4 +28,11 @@ abstract class GetUrl extends AsyncTask<String, Void, String> {
         return null;
     }
 
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        if (s != null) {
+            MainActivity.sharedPreferences.edit().putString("json", s).apply();
+        }
+    }
 }

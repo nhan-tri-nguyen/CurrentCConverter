@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -23,8 +22,7 @@ public class MainActivity extends AppCompatActivity {
     // Keep track of the pos of currencies
     // when filtering currencies in CountrySelection
     static int[] filteredPosArr = new int[200];
-    static int fromFragment;
-    private SQLiteDatabase mDb;
+    private int fromFragment;
     public static final String ACCESS_KEY = "060cdd5f28bcadbeea155864b0bb2501";
     public static final String BASE_URL = "http://apilayer.net/api/";
     public static final String ENDPOINT = "live";
@@ -119,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
         }
         initializeDatabase();
         setInfo(viewPager);
+        updateJSON();
+    }
+
+    private void updateJSON() {
+        new GetUrl().execute(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY);
     }
 
     @Override

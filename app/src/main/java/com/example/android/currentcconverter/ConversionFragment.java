@@ -13,9 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
-import org.json.JSONObject;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
+
+import org.json.JSONException;
 
 
 /**
@@ -33,7 +32,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
     private FloatingActionButton switchFab;
 
     private void setInfo() {
-        // Render after choosing a currency
+        // Render after choosing a currency or swap
         if (MainActivity.positionArr[0] != -1) {
             CurrentC myCurrency1 = MainActivity.currenciesList.get(MainActivity.positionArr[0]);
             mainCountryImageView.setImageResource(myCurrency1.getFlagResourcesId());
@@ -44,8 +43,23 @@ public class ConversionFragment extends Fragment implements OnClickListener{
             subCountryImageView.setImageResource(myCurrency2.getFlagResourcesId());
             abbrSubTextView.setText(myCurrency2.getCurrentCAbbreviations());
         }
-        new ConversionGetUrl().execute(MainActivity.BASE_URL +
-                MainActivity.ENDPOINT + "?access_key=" +MainActivity.ACCESS_KEY);
+
+        // Render for new amount
+        String jsonString = MainActivity.sharedPreferences.getString("json", "");
+        if (jsonString != "") {
+            ResultFromJSON res = new ResultFromJSON(abbrMainTextView.getText().toString(),
+                    abbrSubTextView.getText().toString(),
+                    inputTextView.getText().toString());
+            String finalAnswer = null;
+            try {
+                finalAnswer = res.getStrResult(jsonString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            outputTextView.setText(finalAnswer);
+        } else {
+            Toast.makeText(getContext(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG);
+        }
     }
 
     private void findView (View view) {
@@ -94,25 +108,5 @@ public class ConversionFragment extends Fragment implements OnClickListener{
             intent.putExtra("fragment", 2);
         } else intent.putExtra("fragment", 0);
         startActivity(intent);
-    }
-
-    private class ConversionGetUrl extends GetUrl{
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                if (s != null) {
-                    ResultFromJSON res = new ResultFromJSON(abbrMainTextView.getText().toString(),
-                            abbrSubTextView.getText().toString(),
-                            inputTextView.getText().toString());
-                    String finalAnswer = res.getStrResult(s);
-                    outputTextView.setText(finalAnswer);
-                } else {
-                    Toast.makeText(getContext(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
