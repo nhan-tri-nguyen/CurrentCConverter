@@ -102,8 +102,29 @@ public class CurrentCProvider extends ContentProvider {
         return 0;
     }
 
+    private int updateFavCurrentC(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        // Returns the number of database rows affected by the update statement
+        return database.update(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME, values, selection, selectionArgs);
+    }
+
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case FAVCURRENTC:
+                return updateFavCurrentC(uri, values, selection, selectionArgs);
+            case FAVCURRENTC_ID:
+                // For the PET_ID code, extract out the ID from the URI,
+                // so we know which row to update. Selection will be "_id=?" and selection
+                // arguments will be a String array containing the actual ID.
+                selection = FavCurrentCContract.FavCurrentCEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return updateFavCurrentC(uri, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
     }
 }
