@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -175,18 +176,17 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     private Cursor getFavCurrentC() {
-        return mDb.query(
-                FavCurrentCContract.FavCurrentCEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        String[] projection = {
+                FavCurrentCContract.FavCurrentCEntry._ID,
+                FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT,
+                FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID,
+                FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR
+        };
+        return getActivity().getContentResolver().query(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
+                projection, null, null, null);
     }
 
-    private long addFavCurrentC(String abbr, int imgId, double amount) {
+    private void addFavCurrentC(String abbr, int imgId, double amount) {
 
         // Add info to content values and insert into database
         ContentValues contentValues = new ContentValues();
@@ -194,8 +194,8 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID, imgId);
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount);
 
-        return mDb.insert(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME,
-                null, contentValues);
+        getActivity().getContentResolver()
+                .insert(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,contentValues);
     }
 
     private boolean removeFavCurrentC(long id) {
