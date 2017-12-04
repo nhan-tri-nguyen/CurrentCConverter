@@ -98,8 +98,23 @@ public class CurrentCProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        // Get writable database
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case FAVCURRENTC:
+                // Delete all rows that match the selection and selection args
+                return database.delete(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME, selection, selectionArgs);
+            case FAVCURRENTC_ID:
+                // Delete a single row given by the ID in the URI
+                selection = FavCurrentCContract.FavCurrentCEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return database.delete(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
     }
 
     private int updateFavCurrentC(Uri uri, ContentValues values, String selection, String[] selectionArgs) {

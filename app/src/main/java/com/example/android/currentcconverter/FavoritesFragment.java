@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,6 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     private TextView abbrCurrencyTextView;
     private FloatingActionButton addFab;
     private EditText amountEditText;
-    private SQLiteDatabase mDb;
     private FavCurrentCAdapter mAdapter;
     private RecyclerView favRecyclerView;
 
@@ -51,6 +51,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
             favCurrencyImageView.setImageResource(myCurrency.getFlagResourcesId());
             countryNameTextView.setText(myCurrency.getCurrentCName());
             abbrCurrencyTextView.setText(myCurrency.getCurrentCAbbreviations());
+            textChangeRender();
         }
         favListRender();
     }
@@ -107,7 +108,8 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         // Update the database
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount);
-        return mDb.update(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME,
+        return getActivity().getContentResolver()
+                .update(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
                 contentValues, FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
                 null) > 0;
     }
@@ -119,7 +121,6 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
         // Connect to the database
         FavCurrentCDbHelper dbHelper = new FavCurrentCDbHelper(getActivity());
-        mDb = dbHelper.getWritableDatabase();
         Cursor cursor = getFavCurrentC();
         mAdapter = new FavCurrentCAdapter(getActivity(), cursor, this);
         favRecyclerView.setAdapter(mAdapter);
@@ -163,7 +164,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         setAllViews(view);
         setViewOnClickListener();
-        // Render after choosing a country
+        // Render after adding a country
         Rendering();
         return view;
     }
@@ -199,7 +200,8 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     private boolean removeFavCurrentC(long id) {
-        return mDb.delete(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME,
+        return getActivity().getContentResolver()
+                .delete(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
                 FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
                 null) > 0;
     }
