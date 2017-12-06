@@ -11,6 +11,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 /**
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 
 public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.CurrentCViewHolder> implements Filterable{
 
+    private Context mContext;
     private ArrayList<CurrentC> originalList;
     private ArrayList<CurrentC> filteredList;
     final private ListItemClickListener mOnClickListener;
@@ -44,8 +47,9 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
         void bindData(CurrentC currentC) {
             nameTextView.setText(currentC.getCurrentCName());
             abbrTextView.setText(currentC.getCurrentCAbbreviations());
-            flagImageView.setImageResource(currentC.getFlagResourcesId());
+            Glide.with(mContext).load(currentC.getFlagResourcesId()).into(flagImageView);
         }
+
 
         @Override
         public void onClick(View v) {
@@ -55,10 +59,11 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
     }
 
     // CurrentCAdapter constructor
-    public CurrentCAdapter (ArrayList<CurrentC> currentCArrayList, ListItemClickListener listener) {
+    public CurrentCAdapter (ArrayList<CurrentC> currentCArrayList, ListItemClickListener listener, Context context) {
         originalList = currentCArrayList;
         filteredList = currentCArrayList;
         mOnClickListener = listener;
+        mContext = context;
         //Reset filteredPosArr
         for (int i = 0; i < 200; ++i) MainActivity.filteredPosArr[i] = i;
     }

@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.example.android.currentcconverter"
         minSdkVersion 23
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -30,4 +30,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.bumptech.glide:glide:3.8.0'
 }

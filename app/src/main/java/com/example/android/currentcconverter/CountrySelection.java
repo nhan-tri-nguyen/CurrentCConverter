@@ -31,7 +31,7 @@ public class CountrySelection extends AppCompatActivity implements CurrentCAdapt
         selectionRecyclerView.setHasFixedSize(true);
 
         // mAdapter is responsible for displaying item
-        mAdapter = new CurrentCAdapter(MainActivity.currenciesList,this);
+        mAdapter = new CurrentCAdapter(MainActivity.currenciesList,this, getApplicationContext());
         selectionRecyclerView.setAdapter(mAdapter);
 
         onNewIntent(getIntent());

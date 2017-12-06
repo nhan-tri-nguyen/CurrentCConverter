@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.currentcconverter.data.FavCurrentCContract;
 
 /**
@@ -76,7 +77,7 @@ public class FavCurrentCAdapter extends RecyclerView.Adapter<FavCurrentCAdapter.
         // Display the amount
         holder.amountTextView.setText(String.valueOf(amount));
         // Display the flag
-        holder.flagImageView.setImageResource(imgId);
+        Glide.with(mContext).load(imgId).into(holder.flagImageView);
         // Save the id to associate with the database
         holder.itemView.setTag(id);
     }
