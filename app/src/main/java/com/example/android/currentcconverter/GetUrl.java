@@ -13,7 +13,7 @@ import okhttp3.Response;
  */
 
  public class GetUrl extends AsyncTask<String, Void, String> {
-    OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+    private OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
     @Override
     final protected String doInBackground(String... urls) {

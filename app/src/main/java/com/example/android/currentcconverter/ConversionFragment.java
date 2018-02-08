@@ -1,11 +1,11 @@
 package com.example.android.currentcconverter;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,8 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import org.json.JSONException;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -46,19 +48,21 @@ public class ConversionFragment extends Fragment implements OnClickListener{
 
         // Render for new amount
         String jsonString = MainActivity.sharedPreferences.getString("json", "");
-        if (jsonString != "") {
+        if (!jsonString.equals("")) {
             ResultFromJSON res = new ResultFromJSON(abbrMainTextView.getText().toString(),
                     abbrSubTextView.getText().toString(),
                     inputTextView.getText().toString());
-            String finalAnswer = null;
+            BigDecimal finalAnswer = new BigDecimal("0");
+            Log.i("number", finalAnswer.toString());
             try {
-                finalAnswer = res.getStrResult(jsonString);
+                finalAnswer = res.getNumResult(jsonString);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            outputTextView.setText(finalAnswer);
+            Log.i("number", finalAnswer.toString());
+            outputTextView.setText(finalAnswer.toString());
         } else {
-            Toast.makeText(getContext(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG);
+            Toast.makeText(getContext(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -82,18 +86,15 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                 int tmp = MainActivity.positionArr[0];
                 MainActivity.positionArr[0] = MainActivity.positionArr[2];
                 MainActivity.positionArr[2] = tmp;
-                SharedPreferences sharedPreferences =
-                        getActivity().getSharedPreferences("com.example.android.currentcconverter",
-                                Context.MODE_PRIVATE);
-                sharedPreferences.edit().putInt("main",MainActivity.positionArr[0]).apply();
-                sharedPreferences.edit().putInt("sub",MainActivity.positionArr[2]).apply();
+                MainActivity.sharedPreferences.edit().putInt("main",MainActivity.positionArr[0]).apply();
+                MainActivity.sharedPreferences.edit().putInt("sub",MainActivity.positionArr[2]).apply();
                 setInfo();
             }
         });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversion, container, false);
         findView(view);
         setViewOnClickListener();

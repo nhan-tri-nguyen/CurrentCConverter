@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import com.example.android.currentcconverter.data.FavCurrentCContract;
 import com.example.android.currentcconverter.data.FavCurrentCDbHelper;
 import org.json.JSONException;
 
+import java.math.BigDecimal;
+
 /**
  * Created by ngtrnhan1205 on 10/21/17.
  */
@@ -39,7 +42,6 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     private FloatingActionButton addFab;
     private EditText amountEditText;
     private FavCurrentCAdapter mAdapter;
-    private RecyclerView favRecyclerView;
 
     private void Rendering() {
         // Render previous amount
@@ -60,13 +62,13 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         // Render for FavList
         String jsonString = MainActivity.sharedPreferences.getString("json","");
         int myPos = MainActivity.positionArr[3];
-        if (myPos != -1 && jsonString != "") {
+        if (myPos != -1 && !jsonString.equals("")) {
             CurrentC currentC = MainActivity.currenciesList.get(myPos);
             // Get result from JSON
             String subAbbr = currentC.getCurrentCAbbreviations();
             ResultFromJSON res = new ResultFromJSON(abbrCurrencyTextView.getText().toString(),
                     subAbbr, amountEditText.getText().toString());
-            double amount = 0;
+            BigDecimal amount = new BigDecimal("0");
             try {
                 amount = res.getNumResult(jsonString);
             } catch (JSONException e) {
@@ -75,14 +77,14 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
             // Pass result into database
             addFavCurrentC(subAbbr, currentC.getFlagResourcesId(), amount);
             mAdapter.swapCursor(getFavCurrentC());
-        } else if (jsonString == "") {
-            Toast.makeText(getActivity(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG);
+        } else if (jsonString.equals("")) {
+            Toast.makeText(getActivity(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG).show();
         }
     }
 
     private void textChangeRender() {
         String jsonString = MainActivity.sharedPreferences.getString("json","");
-        if (jsonString == "") return;
+        if (jsonString.equals("")) return;
         ResultFromJSON res;
         Cursor cursor = getFavCurrentC();
         // Iterate through the database
@@ -93,7 +95,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                     getColumnIndex(FavCurrentCContract.FavCurrentCEntry._ID));
             res = new ResultFromJSON(abbrCurrencyTextView.getText().toString(),
                     subAbbr, amountEditText.getText().toString());
-            double amount = 0;
+            BigDecimal amount = new BigDecimal("0");
             try {
                 amount = res.getNumResult(jsonString);
             } catch (JSONException e) {
@@ -104,10 +106,10 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         mAdapter.swapCursor(getFavCurrentC());
     }
 
-    private boolean updateFavCurrentC(double amount, long id) {
+    private boolean updateFavCurrentC(BigDecimal amount, long id) {
         // Update the database
         ContentValues contentValues = new ContentValues();
-        contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount);
+        contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount.toString());
         return getActivity().getContentResolver()
                 .update(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
                 contentValues, FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
@@ -115,6 +117,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     private void setAllViews(View view) {
+        RecyclerView favRecyclerView;
         // Set view for Recycler View
         favRecyclerView = view.findViewById(R.id.favRecyclerView);
         favRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -145,10 +148,10 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         });
         amountEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {return;}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {return;}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -160,7 +163,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         setAllViews(view);
         setViewOnClickListener();
@@ -187,13 +190,13 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                 projection, null, null, null);
     }
 
-    private void addFavCurrentC(String abbr, int imgId, double amount) {
+    private void addFavCurrentC(String abbr, int imgId, BigDecimal amount) {
 
         // Add info to content values and insert into database
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR, abbr);
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID, imgId);
-        contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount);
+        contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount.toString());
 
         getActivity().getContentResolver()
                 .insert(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,contentValues);

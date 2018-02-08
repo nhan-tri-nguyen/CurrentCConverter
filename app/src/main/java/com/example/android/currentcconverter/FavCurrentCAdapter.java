@@ -68,14 +68,14 @@ public class FavCurrentCAdapter extends RecyclerView.Adapter<FavCurrentCAdapter.
 
         // Update the view holder with the information needed to display
         String abbr = mCursor.getString(mCursor.getColumnIndex(FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR));
-        int amount = mCursor.getInt(mCursor.getColumnIndex(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT));
+        String amount = mCursor.getString(mCursor.getColumnIndex(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT));
         int imgId = mCursor.getInt(mCursor.getColumnIndex(FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID));
         long id = mCursor.getLong(mCursor.getColumnIndex(FavCurrentCContract.FavCurrentCEntry._ID));
 
         // Display the abbreviation
         holder.abbrTextView.setText(abbr);
         // Display the amount
-        holder.amountTextView.setText(String.valueOf(amount));
+        holder.amountTextView.setText(amount);
         // Display the flag
         Glide.with(mContext).load(imgId).into(holder.flagImageView);
         // Save the id to associate with the database

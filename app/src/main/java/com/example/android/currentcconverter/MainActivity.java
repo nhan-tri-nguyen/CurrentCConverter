@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     // Keep track of the pos of currencies
     // when filtering currencies in CountrySelection
     static int[] filteredPosArr = new int[200];
-    private int fromFragment;
     public static final String ACCESS_KEY = "060cdd5f28bcadbeea155864b0bb2501";
     public static final String BASE_URL = "http://apilayer.net/api/";
     public static final String ENDPOINT = "live";
@@ -49,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setInfo(ViewPager viewPager) {
+        int fromFragment;
         //Get back response from CountrySelection after choosing a country
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", -1);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (position == -1 || fromFragment == -1) {
             //Show error if it occurred
-            Toast.makeText(getApplicationContext(), ERROR_MESSAGE, Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(), ERROR_MESSAGE, Toast.LENGTH_LONG).show();
         } else {
             //Returning to the previous tab
             if (fromFragment == 3){
@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPreferences = this.
-                getSharedPreferences("com.example.android.currentcconverter", Context.MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences("com.example.android.currentcconverter", Context.MODE_PRIVATE);
         //Set up viewpager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         BasicFragmentPagerAdapter myAdapter = new BasicFragmentPagerAdapter(this, getSupportFragmentManager());
