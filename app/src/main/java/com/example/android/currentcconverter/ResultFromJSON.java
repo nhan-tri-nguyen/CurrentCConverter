@@ -1,9 +1,13 @@
 package com.example.android.currentcconverter;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 /**
  * Created by ngtrnhan1205 on 11/20/17.
@@ -30,11 +34,12 @@ public class ResultFromJSON {
 
         // Calculate ratio sub to main and set to View
         if (mInput.trim().length() == 0) return new BigDecimal("0");
-        BigDecimal subRatio = new BigDecimal(currency.getString(subCurrency));
-        BigDecimal mainRatio = new BigDecimal(currency.getString(mainCurrency));
-        BigDecimal res = subRatio.divide(mainRatio, 2, BigDecimal.ROUND_FLOOR);
+        BigDecimal subRatio = new BigDecimal(currency.getString(subCurrency)).setScale(12, BigDecimal.ROUND_FLOOR);
+        BigDecimal mainRatio = new BigDecimal(currency.getString(mainCurrency)).setScale(12, BigDecimal.ROUND_FLOOR);
+        BigDecimal res = subRatio.divide(mainRatio, 12, BigDecimal.ROUND_FLOOR);
         BigDecimal inputAmount = new BigDecimal(mInput);
         res = res.multiply(inputAmount);
+        res = new BigDecimal(new DecimalFormat("#.##").format(res));
         return res;
     }
 }

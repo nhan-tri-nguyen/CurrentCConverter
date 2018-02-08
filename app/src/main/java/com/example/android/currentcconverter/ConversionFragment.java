@@ -53,13 +53,11 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                     abbrSubTextView.getText().toString(),
                     inputTextView.getText().toString());
             BigDecimal finalAnswer = new BigDecimal("0");
-            Log.i("number", finalAnswer.toString());
             try {
                 finalAnswer = res.getNumResult(jsonString);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.i("number", finalAnswer.toString());
             outputTextView.setText(finalAnswer.toString());
         } else {
             Toast.makeText(getContext(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG).show();
