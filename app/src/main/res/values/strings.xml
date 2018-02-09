@@ -7,6 +7,24 @@
     <string name="fragment_favorite">favorites</string>
     <string name="action_search">search_box</string>
     <string name="search_hint">Search currency</string>
+    <string name="initial_main_currency">Canadian Dollar</string>
+    <string name="initial_main_abbreviation">CAD</string>
+    <string name="initial_sub_abbreviation">VND</string>
+    <string name="initial_amount">2603</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="delete">DEL</string>
+    <string name="decimal_separator">.</string>
+    <string name="number_one">1</string>
+    <string name="number_two">2</string>
+    <string name="number_three">3</string>
+    <string name="number_four">4</string>
+    <string name="number_five">5</string>
+    <string name="number_six">6</string>
+    <string name="number_seven">7</string>
+    <string name="number_eight">8</string>
+    <string name="number_nine">9</string>
+    <string name="number_zero">0</string>
     <string-array name="currencies_array">
         <item>BTC-Bitcoin-BTC</item>
         <item>AFN-Afghan Afghani-AFN</item>
