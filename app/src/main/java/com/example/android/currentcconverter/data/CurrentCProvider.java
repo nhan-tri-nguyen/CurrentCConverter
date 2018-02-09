@@ -78,8 +78,7 @@ public class CurrentCProvider extends ContentProvider {
         long id = database.insert(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME,
                 null, values);
         if (id == -1) {
-            Toast.makeText(getContext(),
-                    "Failed to add your new favorite currency!", Toast.LENGTH_LONG);
+            Toast.makeText(getContext(), "Error! The new favorite currency can not be added", Toast.LENGTH_LONG).show();
             return null;
         }
         return ContentUris.withAppendedId(uri, id);
@@ -98,7 +97,7 @@ public class CurrentCProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         // Get writable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
@@ -132,9 +131,6 @@ public class CurrentCProvider extends ContentProvider {
             case FAVCURRENTC:
                 return updateFavCurrentC(uri, values, selection, selectionArgs);
             case FAVCURRENTC_ID:
-                // For the PET_ID code, extract out the ID from the URI,
-                // so we know which row to update. Selection will be "_id=?" and selection
-                // arguments will be a String array containing the actual ID.
                 selection = FavCurrentCContract.FavCurrentCEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return updateFavCurrentC(uri, values, selection, selectionArgs);

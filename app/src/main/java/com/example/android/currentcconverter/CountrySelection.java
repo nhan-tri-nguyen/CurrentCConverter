@@ -15,11 +15,11 @@ import android.support.v7.widget.SearchView;
 
 public class CountrySelection extends AppCompatActivity implements CurrentCAdapter.ListItemClickListener{
 
-   private RecyclerView selectionRecyclerView;
    private CurrentCAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        RecyclerView selectionRecyclerView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_selection);
 
@@ -48,6 +48,7 @@ public class CountrySelection extends AppCompatActivity implements CurrentCAdapt
         //Get support for searchView for searchable configuration
         SearchManager searchManager = (SearchManager)
                 getSystemService(Context.SEARCH_SERVICE);
+        assert searchManager != null;
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return super.onCreateOptionsMenu(menu);
     }

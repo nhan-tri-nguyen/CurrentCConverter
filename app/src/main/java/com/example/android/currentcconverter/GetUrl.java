@@ -21,6 +21,7 @@ import okhttp3.Response;
 
         try {
             Response response = okHttpClient.newCall(request).execute();
+            //noinspection ConstantConditions
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();

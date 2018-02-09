@@ -73,8 +73,7 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.list_item, parent, false);
-        CurrentCViewHolder viewHolder = new CurrentCViewHolder(view);
-        return viewHolder;
+        return new CurrentCViewHolder(view);
     }
 
     @Override
@@ -156,6 +155,7 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+                //noinspection unchecked
                 filteredList = (ArrayList<CurrentC>) results.values;
                 notifyDataSetChanged();
             }

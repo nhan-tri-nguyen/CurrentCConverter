@@ -101,7 +101,9 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            updateFavCurrentC(amount, id);
+            if (!updateFavCurrentC(amount, id)) {
+                Toast.makeText(getActivity(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG).show();
+            }
         }
         mAdapter.swapCursor(getFavCurrentC());
     }
@@ -110,6 +112,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         // Update the database
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount.toString());
+        //noinspection ConstantConditions
         return getActivity().getContentResolver()
                 .update(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
                 contentValues, FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
@@ -186,6 +189,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                 FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID,
                 FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR
         };
+        //noinspection ConstantConditions
         return getActivity().getContentResolver().query(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
                 projection, null, null, null);
     }
@@ -198,11 +202,13 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID, imgId);
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount.toString());
 
+        //noinspection ConstantConditions
         getActivity().getContentResolver()
                 .insert(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,contentValues);
     }
 
     private boolean removeFavCurrentC(long id) {
+        //noinspection ConstantConditions
         return getActivity().getContentResolver()
                 .delete(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
                 FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
@@ -211,6 +217,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
     @Override
     public void onListItemLongClick(final View view) {
+        //noinspection ConstantConditions
         new AlertDialog.Builder(getActivity())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Are you sure?")
@@ -218,8 +225,11 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        removeFavCurrentC((long) view.getTag());
-                        mAdapter.swapCursor(getFavCurrentC());
+                        if (removeFavCurrentC((long) view.getTag())) {
+                            mAdapter.swapCursor(getFavCurrentC());
+                        } else {
+                            Toast.makeText(getActivity(), "Error! Item can not be deleted!", Toast.LENGTH_LONG).show();
+                        }
                     }
                 })
                 .setNegativeButton("No", null)

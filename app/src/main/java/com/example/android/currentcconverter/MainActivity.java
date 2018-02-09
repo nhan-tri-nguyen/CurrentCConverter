@@ -28,16 +28,19 @@ public class MainActivity extends AppCompatActivity {
     public static final String ERROR_MESSAGE = "Please check your internet connection to update the exchange rates";
 
     public String getAbbreviation(String s) {
-        String result = "";
-        for (int i = 0; i < 3; i++) result += s.charAt(i);
-        return  result;
+        StringBuilder result = new StringBuilder("");
+        for (int i = 0; i < 3; i++) {
+            result.append(s.charAt(i));
+        }
+        return result.toString();
     }
 
     public String getName(String s) {
-        String result = "";
-        for (int i = 4; i < s.length() - 4; ++i)
-            result += s.charAt(i);
-        return  result;
+        StringBuilder result = new StringBuilder("");
+        for (int i = 4; i < s.length() - 4; ++i) {
+            result.append(s.charAt(i));
+        }
+        return result.toString();
     }
 
     private void initializeDatabase() {
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setInfo(ViewPager viewPager) {
-        int fromFragment;
         //Get back response from CountrySelection after choosing a country
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", -1);
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                      == 2: subCountry in conversion
                      == 3: addFab in favorites
         */
-        fromFragment = intent.getIntExtra("from", -1);
+        int fromFragment = intent.getIntExtra("from", -1);
 
         if (position == -1 || fromFragment == -1) {
             //Show error if it occurred
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                                 flags.getResourceId(i, -1)));
             }
         }
+        flags.recycle();
         initializeDatabase();
         setInfo(viewPager);
         updateJSON();
