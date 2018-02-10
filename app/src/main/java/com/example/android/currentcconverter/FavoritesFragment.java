@@ -85,7 +85,10 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     private void updateInputChange() {
         String jsonString = MainActivity.sharedPreferences.getString("json","");
         if (jsonString.equals("")) return;
-        ResultFromJSON res;
+        if (amountEditText.getText().toString().equals(".")) {
+            amountEditText.setText("");
+            return;
+        }
         Cursor cursor = getFavCurrentC();
         // Iterate through the database
         while (cursor.moveToNext()) {
@@ -93,7 +96,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                     getColumnIndex(FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR));
             long id = cursor.getLong(cursor.
                     getColumnIndex(FavCurrentCContract.FavCurrentCEntry._ID));
-            res = new ResultFromJSON(abbrCurrencyTextView.getText().toString(),
+            ResultFromJSON res = new ResultFromJSON(abbrCurrencyTextView.getText().toString(),
                     subAbbr, amountEditText.getText().toString());
             BigDecimal amount = new BigDecimal("0");
             try {

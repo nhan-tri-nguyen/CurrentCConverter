@@ -53,6 +53,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="start"
+                    android:labelFor="@+id/inputEditText"
                     android:text="@string/initial_main_abbreviation"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="18sp" />
@@ -73,7 +74,7 @@
                 android:singleLine="true"
                 android:text="@string/initial_amount"
                 android:textColor="@color/primaryTextColor"
-                android:textSize="18sp" />
+                android:textSize="18sp" android:inputType="" />
 
         </LinearLayout>
 
