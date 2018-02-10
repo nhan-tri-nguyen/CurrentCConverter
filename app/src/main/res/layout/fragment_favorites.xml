@@ -31,11 +31,11 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:layout_weight="1"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contextClickable="true"
                     android:focusable="true"
                     android:longClickable="true"
-                    android:padding="0dp"
                     app:srcCompat="@drawable/canada" />
 
                 <TextView
@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="5"
+                    android:layout_weight="3.3"
                     android:labelFor="@+id/favCurrencyImageView"
                     android:text="@string/initial_main_currency"
                     android:textAlignment="center"

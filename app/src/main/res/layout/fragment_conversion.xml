@@ -28,6 +28,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/canada" />
 
             <LinearLayout
@@ -94,6 +95,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/vietnam" />
 
             <LinearLayout
@@ -155,6 +157,7 @@
                 android:gravity="center"
                 android:tag="1"
                 android:text="@string/number_one"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -166,6 +169,7 @@
                 android:gravity="center"
                 android:tag="2"
                 android:text="@string/number_two"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -177,6 +181,7 @@
                 android:gravity="center"
                 android:tag="3"
                 android:text="@string/number_three"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -188,6 +193,7 @@
                 android:gravity="center"
                 android:tag="4"
                 android:text="@string/number_four"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -199,6 +205,7 @@
                 android:gravity="center"
                 android:tag="5"
                 android:text="@string/number_five"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -210,6 +217,7 @@
                 android:gravity="center"
                 android:tag="6"
                 android:text="@string/number_six"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -221,6 +229,7 @@
                 android:gravity="center"
                 android:tag="7"
                 android:text="@string/number_seven"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -232,6 +241,7 @@
                 android:gravity="center"
                 android:tag="8"
                 android:text="@string/number_eight"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -243,10 +253,11 @@
                 android:gravity="center"
                 android:tag="9"
                 android:text="@string/number_nine"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
-                android:id="@+id/dotTextView"
+                android:id="@+id/decimalSeparatorTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
@@ -254,6 +265,7 @@
                 android:gravity="center"
                 android:tag="."
                 android:text="@string/decimal_separator"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -265,6 +277,7 @@
                 android:gravity="center"
                 android:tag="0"
                 android:text="@string/number_zero"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="36sp" />
 
             <TextView
@@ -276,6 +289,7 @@
                 android:gravity="center"
                 android:tag="del"
                 android:text="@string/delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textSize="18sp" />
 
         </GridLayout>
