@@ -5,15 +5,21 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
 
@@ -24,15 +30,16 @@ import java.math.BigDecimal;
 
 public class ConversionFragment extends Fragment implements OnClickListener{
 
-    private TextView inputTextView;
+    private EditText inputEditText;
     private TextView outputTextView;
     private ImageView mainCountryImageView;
     private TextView abbrMainTextView;
     private ImageView subCountryImageView;
     private TextView abbrSubTextView;
+    private GridLayout keyboard;
     private FloatingActionButton switchFab;
 
-    private void setInfo() {
+    private void updateCurrencyChange() {
         // Render after choosing a currency or swap
         if (MainActivity.positionArr[0] != -1) {
             CurrentC myCurrency1 = MainActivity.currenciesList.get(MainActivity.positionArr[0]);
@@ -44,13 +51,15 @@ public class ConversionFragment extends Fragment implements OnClickListener{
             subCountryImageView.setImageResource(myCurrency2.getFlagResourcesId());
             abbrSubTextView.setText(myCurrency2.getCurrentCAbbreviations());
         }
+    }
 
+    private void updateInputChange() {
         // Render for new amount
         String jsonString = MainActivity.sharedPreferences.getString("json", "");
         if (!jsonString.equals("")) {
             ResultFromJSON res = new ResultFromJSON(abbrMainTextView.getText().toString(),
                     abbrSubTextView.getText().toString(),
-                    inputTextView.getText().toString());
+                    inputEditText.getText().toString());
             BigDecimal finalAnswer = new BigDecimal("0");
             try {
                 finalAnswer = res.getNumResult(jsonString);
@@ -64,13 +73,14 @@ public class ConversionFragment extends Fragment implements OnClickListener{
     }
 
     private void findView (View view) {
-        inputTextView = view.findViewById(R.id.inputTextView);
+        inputEditText = view.findViewById(R.id.inputEditText);
         outputTextView = view.findViewById(R.id.outputTextView);
         mainCountryImageView = view.findViewById(R.id.mainCoutnryImageView);
         abbrMainTextView =view.findViewById(R.id.abbrMainTextView);
         subCountryImageView = view.findViewById(R.id.subCountryImageView);
         abbrSubTextView = view.findViewById(R.id.abbrSubTextView);
         switchFab = view.findViewById(R.id.switchFab);
+        keyboard = view.findViewById(R.id.keyboard);
     }
 
     private void setViewOnClickListener() {
@@ -79,15 +89,46 @@ public class ConversionFragment extends Fragment implements OnClickListener{
         subCountryImageView.setOnClickListener(this);
         switchFab.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 int tmp = MainActivity.positionArr[0];
                 MainActivity.positionArr[0] = MainActivity.positionArr[2];
                 MainActivity.positionArr[2] = tmp;
                 MainActivity.sharedPreferences.edit().putInt("main",MainActivity.positionArr[0]).apply();
                 MainActivity.sharedPreferences.edit().putInt("sub",MainActivity.positionArr[2]).apply();
-                setInfo();
+                updateCurrencyChange();
+                updateInputChange();
             }
         });
+        // Set clickListener to keyboard
+        int childCount = keyboard.getChildCount();
+        for (int i = 0; i < childCount; ++i) {
+            TextView button = (TextView) keyboard.getChildAt(i);
+            button.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String tmp = view.getTag().toString();
+                    String current = inputEditText.getText().toString();
+                    if (tmp.equals("del") || current.length() == 0) {
+                        if (current.length() == 1) {
+                            inputEditText.setText("0");
+                        } else {
+                            inputEditText.setText(current.substring(0, current.length() - 1));
+                        }
+                    } else if (!current.contains(".") || !tmp.equals(".")) {
+                        if (current.equals("0") && !tmp.equals(".")) {
+                            inputEditText.setText(tmp);
+                        } else {
+                            inputEditText.append(tmp);
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "A number can not contain two decimal separators", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    updateInputChange();
+                }
+            });
+        }
     }
 
     @Override
@@ -95,7 +136,8 @@ public class ConversionFragment extends Fragment implements OnClickListener{
         View view = inflater.inflate(R.layout.fragment_conversion, container, false);
         findView(view);
         setViewOnClickListener();
-        setInfo();
+        updateCurrencyChange();
+        updateInputChange();
         return view;
     }
 

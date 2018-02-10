@@ -8,6 +8,7 @@
     tools:ignore="contentDescription">
 
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -26,8 +27,8 @@
                 android:layout_margin="20dp"
                 android:layout_weight="1"
                 android:clickable="true"
-                app:srcCompat="@drawable/canada"
-                android:focusable="true"/>
+                android:focusable="true"
+                app:srcCompat="@drawable/canada" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,14 +59,18 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/inputTextView"
+            <EditText
+                android:id="@+id/inputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
+                android:background="@null"
+                android:enabled="false"
                 android:gravity="center|end"
+                android:maxLength="12"
                 android:paddingEnd="20dp"
                 android:paddingStart="20dp"
+                android:singleLine="true"
                 android:text="@string/initial_amount"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="18sp" />
@@ -87,8 +92,8 @@
                 android:layout_margin="20dp"
                 android:layout_weight="1"
                 android:clickable="true"
-                app:srcCompat="@drawable/vietnam"
-                android:focusable="true"/>
+                android:focusable="true"
+                app:srcCompat="@drawable/vietnam" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -133,6 +138,7 @@
         </LinearLayout>
 
         <GridLayout
+            android:id="@+id/keyboard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
