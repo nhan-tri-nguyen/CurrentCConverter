@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACCESS_KEY = "060cdd5f28bcadbeea155864b0bb2501";
     public static final String BASE_URL = "http://apilayer.net/api/";
     public static final String ENDPOINT = "live";
-    public static final String ERROR_MESSAGE = "Please check your internet connection to update the exchange rates";
+    public static final String ERROR_MESSAGE = "Please check your internet connection!";
 
     public String getAbbreviation(String s) {
         StringBuilder result = new StringBuilder("");
@@ -62,10 +62,7 @@ public class MainActivity extends AppCompatActivity {
         */
         int fromFragment = intent.getIntExtra("from", -1);
 
-        if (position == -1 || fromFragment == -1) {
-            //Show error if it occurred
-            Toast.makeText(getApplicationContext(), ERROR_MESSAGE, Toast.LENGTH_LONG).show();
-        } else {
+        if (position != -1 && fromFragment != -1)  {
             //Returning to the previous tab
             if (fromFragment == 3){
                 viewPager.setCurrentItem(1);
