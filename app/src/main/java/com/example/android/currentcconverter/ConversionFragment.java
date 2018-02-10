@@ -51,6 +51,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
             subCountryImageView.setImageResource(myCurrency2.getFlagResourcesId());
             abbrSubTextView.setText(myCurrency2.getCurrentCAbbreviations());
         }
+        inputEditText.setText(MainActivity.sharedPreferences.getString("conversionAmount", "0"));
     }
 
     private void updateInputChange() {
@@ -124,7 +125,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                         Toast.makeText(getContext(), "A number can not contain two decimal separators", Toast.LENGTH_LONG).show();
                         return;
                     }
-
+                    MainActivity.sharedPreferences.edit().putString("conversionAmount", inputEditText.getText().toString()).apply();
                     updateInputChange();
                 }
             });

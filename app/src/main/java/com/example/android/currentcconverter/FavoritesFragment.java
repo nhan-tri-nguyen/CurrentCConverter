@@ -45,7 +45,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
     private void Rendering() {
         // Render previous amount
-        amountEditText.setText(MainActivity.sharedPreferences.getString("amount",""));
+        amountEditText.setText(MainActivity.sharedPreferences.getString("favoriteAmount",""));
         // Render for FavCurrency
         int myPosition = MainActivity.positionArr[1];
         if (myPosition != -1) {
@@ -53,7 +53,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
             favCurrencyImageView.setImageResource(myCurrency.getFlagResourcesId());
             countryNameTextView.setText(myCurrency.getCurrentCName());
             abbrCurrencyTextView.setText(myCurrency.getCurrentCAbbreviations());
-            textChangeRender();
+            updateInputChange();
         }
         favListRender();
     }
@@ -82,7 +82,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         }
     }
 
-    private void textChangeRender() {
+    private void updateInputChange() {
         String jsonString = MainActivity.sharedPreferences.getString("json","");
         if (jsonString.equals("")) return;
         ResultFromJSON res;
@@ -158,9 +158,8 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
             @Override
             public void afterTextChanged(Editable s) {
-                MainActivity.sharedPreferences.edit().putString("amount",
-                        amountEditText.getText().toString()).apply();
-                textChangeRender();
+                MainActivity.sharedPreferences.edit().putString("favoriteAmount", amountEditText.getText().toString()).apply();
+                updateInputChange();
             }
         });
     }
