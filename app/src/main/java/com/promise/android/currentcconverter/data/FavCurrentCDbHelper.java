@@ -1,4 +1,4 @@
-package com.example.android.currentcconverter.data;
+package com.promise.android.currentcconverter.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

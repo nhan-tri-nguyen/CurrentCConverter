@@ -1,4 +1,4 @@
-package com.example.android.currentcconverter;
+package com.promise.android.currentcconverter;
 
 import org.junit.Test;
 

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion '27.0.1'
     defaultConfig {
-        applicationId "com.example.android.currentcconverter"
+        applicationId "com.promise.android.currentcconverter"
         minSdkVersion 23
         targetSdkVersion 27
         versionCode 1

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.android.currentcconverter.CountrySelection">
+    tools:context="com.promise.android.currentcconverter.CountrySelection">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/selectionRecyclerView"

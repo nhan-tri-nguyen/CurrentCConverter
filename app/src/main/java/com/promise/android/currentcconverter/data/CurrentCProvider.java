@@ -1,4 +1,4 @@
-package com.example.android.currentcconverter.data;
+package com.promise.android.currentcconverter.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;

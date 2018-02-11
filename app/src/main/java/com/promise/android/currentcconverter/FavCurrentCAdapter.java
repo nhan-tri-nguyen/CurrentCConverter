@@ -1,4 +1,4 @@
-package com.example.android.currentcconverter;
+package com.promise.android.currentcconverter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.android.currentcconverter.data.FavCurrentCContract;
+import com.promise.android.currentcconverter.data.FavCurrentCContract;
 
 /**
  * Created by ngtrnhan1205 on 11/20/17.

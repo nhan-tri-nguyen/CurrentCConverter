@@ -1,12 +1,9 @@
-package com.example.android.currentcconverter;
-
-import android.util.Log;
+package com.promise.android.currentcconverter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 /**

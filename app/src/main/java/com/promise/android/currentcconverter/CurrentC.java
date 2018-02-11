@@ -1,4 +1,4 @@
-package com.example.android.currentcconverter;
+package com.promise.android.currentcconverter;
 
 /**
  * Created by ngtrnhan1205 on 10/25/17.

@@ -1,4 +1,4 @@
-package com.example.android.currentcconverter.data;
+package com.promise.android.currentcconverter.data;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 
 public class FavCurrentCContract {
 
-    public static final String CONTENT_AUTHORITY = "com.example.android.currentcconverter";
+    public static final String CONTENT_AUTHORITY = "com.promise.android.currentcconverter";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_FAVCURRENTC = "favCurrentC";
 

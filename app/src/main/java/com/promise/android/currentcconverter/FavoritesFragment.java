@@ -1,11 +1,9 @@
-package com.example.android.currentcconverter;
+package com.promise.android.currentcconverter;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -15,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.android.currentcconverter.data.FavCurrentCContract;
-import com.example.android.currentcconverter.data.FavCurrentCDbHelper;
+import com.promise.android.currentcconverter.data.FavCurrentCContract;
+import com.promise.android.currentcconverter.data.FavCurrentCDbHelper;
 import org.json.JSONException;
 
 import java.math.BigDecimal;

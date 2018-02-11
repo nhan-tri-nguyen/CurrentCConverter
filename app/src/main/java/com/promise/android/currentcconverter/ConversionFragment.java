@@ -1,25 +1,21 @@
-package com.example.android.currentcconverter;
+package com.promise.android.currentcconverter;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
 
