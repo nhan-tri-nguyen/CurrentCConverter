@@ -5,7 +5,7 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.promise.android.currentcconverter"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 10
         versionName "1.0"
@@ -26,6 +26,7 @@ dependencies {
         compile 'com.android.support:design:25.1.1'
     })
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
     implementation 'com.squareup.okhttp3:okhttp:3.9.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
