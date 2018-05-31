@@ -22,9 +22,9 @@ public class BasicFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0:
+            case Constants.CONVERSION_FRAGMENT:
                 return new ConversionFragment();
-            case 1:
+            case Constants.FAVORITES_FRAGMENT:
                 return new FavoritesFragment();
         }
         return null;
@@ -40,9 +40,9 @@ public class BasicFragmentPagerAdapter extends FragmentPagerAdapter {
 
         //Generate title
         switch (position){
-            case 0:
+            case Constants.CONVERSION_FRAGMENT:
                 return mContext.getString(R.string.fragment_conversion).toUpperCase(Locale.getDefault());
-            case 1:
+            case Constants.FAVORITES_FRAGMENT:
                 return mContext.getString(R.string.fragment_favorite).toUpperCase(Locale.getDefault());
         }
         return null;

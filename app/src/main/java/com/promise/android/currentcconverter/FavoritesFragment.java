@@ -22,10 +22,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.promise.android.currentcconverter.data.FavCurrentCContract;
-import com.promise.android.currentcconverter.data.FavCurrentCDbHelper;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+
+import static com.promise.android.currentcconverter.Constants.ADD_FAVORITES;
+import static com.promise.android.currentcconverter.Constants.ERROR_MESSAGE;
+import static com.promise.android.currentcconverter.Constants.SENTINEL;
 
 /**
  * Created by ngtrnhan1205 on 10/21/17.
@@ -45,7 +48,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         amountEditText.setText(MainActivity.sharedPreferences.getString("favoriteAmount",""));
         // Render for FavCurrency
         int myPosition = MainActivity.positionArr[1];
-        if (myPosition != -1) {
+        if (myPosition != SENTINEL) {
             CurrentC myCurrency = MainActivity.currenciesList.get(myPosition);
             favCurrencyImageView.setImageResource(myCurrency.getFlagResourcesId());
             countryNameTextView.setText(myCurrency.getCurrentCName());
@@ -58,35 +61,49 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     private void favListRender() {
         // Render for FavList
         String jsonString = MainActivity.sharedPreferences.getString("json","");
-        int myPos = MainActivity.positionArr[3];
-        if (myPos != -1 && !jsonString.equals("")) {
+
+        int myPos = MainActivity.positionArr[ADD_FAVORITES];
+
+        if (myPos != SENTINEL && !jsonString.equals("")) {
+
             CurrentC currentC = MainActivity.currenciesList.get(myPos);
             // Get result from JSON
             String subAbbr = currentC.getCurrentCAbbreviations();
-            ResultFromJSON res = new ResultFromJSON(abbrCurrencyTextView.getText().toString(),
-                    subAbbr, amountEditText.getText().toString());
+            ResultFromJSON res = new ResultFromJSON (
+                    abbrCurrencyTextView.getText().toString(),
+                    subAbbr,
+                    amountEditText.getText().toString()
+            );
+
             BigDecimal amount = new BigDecimal("0");
+
             try {
                 amount = res.getNumResult(jsonString);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             // Pass result into database
             addFavCurrentC(subAbbr, currentC.getFlagResourcesId(), amount);
             mAdapter.swapCursor(getFavCurrentC());
+
         } else if (jsonString.equals("")) {
-            Toast.makeText(getActivity(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), ERROR_MESSAGE, Toast.LENGTH_LONG).show();
         }
     }
 
     private void updateInputChange() {
         String jsonString = MainActivity.sharedPreferences.getString("json","");
+
         if (jsonString.equals("")) return;
+
         if (amountEditText.getText().toString().equals(".")) {
             amountEditText.setText("");
             return;
         }
+
         Cursor cursor = getFavCurrentC();
+
         // Iterate through the database
         while (cursor.moveToNext()) {
             String subAbbr = cursor.getString(cursor.
@@ -102,7 +119,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                 e.printStackTrace();
             }
             if (!updateFavCurrentC(amount, id)) {
-                Toast.makeText(getActivity(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), ERROR_MESSAGE, Toast.LENGTH_LONG).show();
             }
         }
         mAdapter.swapCursor(getFavCurrentC());
@@ -114,9 +131,12 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount.toString());
         //noinspection ConstantConditions
         return getActivity().getContentResolver()
-                .update(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
-                contentValues, FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
-                null) > 0;
+                .update(
+                        FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
+                        contentValues,
+                        FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
+                        null
+                ) > 0;
     }
 
     private void setAllViews(View view) {
@@ -126,7 +146,6 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         favRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Connect to the database
-        FavCurrentCDbHelper dbHelper = new FavCurrentCDbHelper(getActivity());
         Cursor cursor = getFavCurrentC();
         mAdapter = new FavCurrentCAdapter(getActivity(), cursor, this);
         favRecyclerView.setAdapter(mAdapter);
@@ -141,14 +160,16 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
     private void setViewOnClickListener() {
         favCurrencyImageView.setOnClickListener(this);
+
         addFab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CountrySelection.class);
-                intent.putExtra("fragment", 3);
+                intent.putExtra("fragment", ADD_FAVORITES);
                 startActivity(intent);
             }
         });
+
         amountEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -158,7 +179,10 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
             @Override
             public void afterTextChanged(Editable s) {
-                MainActivity.sharedPreferences.edit().putString("favoriteAmount", amountEditText.getText().toString()).apply();
+                MainActivity.sharedPreferences.edit().putString(
+                        "favoriteAmount",
+                        amountEditText.getText().toString()
+                ).apply();
                 updateInputChange();
             }
         });
@@ -188,9 +212,14 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
                 FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID,
                 FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR
         };
-        //noinspection ConstantConditions
-        return getActivity().getContentResolver().query(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
-                projection, null, null, null);
+
+        return getActivity().getContentResolver().query(
+                FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null
+        );
     }
 
     private void addFavCurrentC(String abbr, int imgId, BigDecimal amount) {
@@ -201,17 +230,17 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID, imgId);
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount.toString());
 
-        //noinspection ConstantConditions
-        getActivity().getContentResolver()
-                .insert(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,contentValues);
+        getActivity().getContentResolver().insert(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,contentValues);
     }
 
     private boolean removeFavCurrentC(long id) {
         //noinspection ConstantConditions
         return getActivity().getContentResolver()
-                .delete(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
-                FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
-                null) > 0;
+                .delete(
+                        FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
+                        FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
+                        null
+                ) > 0;
     }
 
     @Override

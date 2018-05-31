@@ -19,6 +19,11 @@ import org.json.JSONException;
 
 import java.math.BigDecimal;
 
+import static com.promise.android.currentcconverter.Constants.ERROR_MESSAGE;
+import static com.promise.android.currentcconverter.Constants.MAIN_CURRENCY_CONVERSION;
+import static com.promise.android.currentcconverter.Constants.SENTINEL;
+import static com.promise.android.currentcconverter.Constants.SUB_CURRENCY_CONVERSION;
+
 
 /**
  * Created by ngtrnhan1205 on 10/21/17.
@@ -37,15 +42,20 @@ public class ConversionFragment extends Fragment implements OnClickListener{
 
     private void updateCurrencyChange() {
         // Render after choosing a currency or swap
-        if (MainActivity.positionArr[0] != -1) {
-            CurrentC myCurrency1 = MainActivity.currenciesList.get(MainActivity.positionArr[0]);
-            mainCountryImageView.setImageResource(myCurrency1.getFlagResourcesId());
-            abbrMainTextView.setText(myCurrency1.getCurrentCAbbreviations());
+        int mainCurrencyPos = MainActivity.positionArr[MAIN_CURRENCY_CONVERSION];
+
+        if (mainCurrencyPos != SENTINEL) {
+            CurrentC mainCurrency = MainActivity.currenciesList.get(mainCurrencyPos);
+            mainCountryImageView.setImageResource(mainCurrency.getFlagResourcesId());
+            abbrMainTextView.setText(mainCurrency.getCurrentCAbbreviations());
         }
-        if (MainActivity.positionArr[2] != -1) {
-            CurrentC myCurrency2 = MainActivity.currenciesList.get(MainActivity.positionArr[2]);
-            subCountryImageView.setImageResource(myCurrency2.getFlagResourcesId());
-            abbrSubTextView.setText(myCurrency2.getCurrentCAbbreviations());
+
+        int subCurrencyPos = MainActivity.positionArr[SUB_CURRENCY_CONVERSION];
+
+        if (subCurrencyPos != SENTINEL) {
+            CurrentC subCurrency = MainActivity.currenciesList.get(subCurrencyPos);
+            subCountryImageView.setImageResource(subCurrency.getFlagResourcesId());
+            abbrSubTextView.setText(subCurrency.getCurrentCAbbreviations());
         }
         inputEditText.setText(MainActivity.sharedPreferences.getString("conversionAmount", "0"));
     }
@@ -65,7 +75,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
             }
             outputTextView.setText(finalAnswer.toString());
         } else {
-            Toast.makeText(getContext(), MainActivity.ERROR_MESSAGE, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), ERROR_MESSAGE, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -87,15 +97,19 @@ public class ConversionFragment extends Fragment implements OnClickListener{
         switchFab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                int tmp = MainActivity.positionArr[0];
-                MainActivity.positionArr[0] = MainActivity.positionArr[2];
-                MainActivity.positionArr[2] = tmp;
-                MainActivity.sharedPreferences.edit().putInt("main",MainActivity.positionArr[0]).apply();
-                MainActivity.sharedPreferences.edit().putInt("sub",MainActivity.positionArr[2]).apply();
+                int tmp = MainActivity.positionArr[MAIN_CURRENCY_CONVERSION];
+                MainActivity.positionArr[MAIN_CURRENCY_CONVERSION] = MainActivity.positionArr[SUB_CURRENCY_CONVERSION];
+                MainActivity.positionArr[SUB_CURRENCY_CONVERSION] = tmp;
+                MainActivity.sharedPreferences
+                        .edit().putInt("main",MainActivity.positionArr[MAIN_CURRENCY_CONVERSION]).apply();
+                MainActivity.sharedPreferences
+                        .edit().putInt("sub",MainActivity.positionArr[SUB_CURRENCY_CONVERSION]).apply();
+
                 updateCurrencyChange();
                 updateInputChange();
             }
         });
+
         // Set clickListener to keyboard
         int childCount = keyboard.getChildCount();
         for (int i = 0; i < childCount; ++i) {
@@ -105,6 +119,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                 public void onClick(View view) {
                     String tmp = view.getTag().toString();
                     String current = inputEditText.getText().toString();
+
                     if (tmp.equals("del") || current.length() == 0) {
                         if (current.length() == 1) {
                             inputEditText.setText("0");
@@ -112,6 +127,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                             inputEditText.setText(current.substring(0, current.length() - 1));
                         }
                     } else if (!current.contains(".") || !tmp.equals(".")) {
+
                         if (current.equals("0") && !tmp.equals(".")) {
                             inputEditText.setText(tmp);
                         } else {
@@ -121,6 +137,7 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                         Toast.makeText(getContext(), "A number can not contain two decimal separators", Toast.LENGTH_LONG).show();
                         return;
                     }
+
                     MainActivity.sharedPreferences.edit().putString("conversionAmount", inputEditText.getText().toString()).apply();
                     updateInputChange();
                 }
@@ -142,8 +159,8 @@ public class ConversionFragment extends Fragment implements OnClickListener{
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), CountrySelection.class);
         if (subCountryImageView == v){
-            intent.putExtra("fragment", 2);
-        } else intent.putExtra("fragment", 0);
+            intent.putExtra("fragment", MAIN_CURRENCY_CONVERSION);
+        } else intent.putExtra("fragment", SUB_CURRENCY_CONVERSION);
         startActivity(intent);
     }
 }

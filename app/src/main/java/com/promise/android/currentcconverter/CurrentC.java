@@ -17,8 +17,11 @@ public class CurrentC {
     public CurrentC(String mCurrentCName, String mCurrentCAbbreviations, int mFlagResourcesId) {
 
         currentCName = mCurrentCName;
+
         currentCAbbreviations = mCurrentCAbbreviations;
+
         flagResourcesId = mFlagResourcesId;
+
     }
 
     //Get currency's name

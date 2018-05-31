@@ -12,6 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
 
+import static com.promise.android.currentcconverter.Constants.SENTINEL;
+import static com.promise.android.currentcconverter.MainActivity.currenciesList;
+
 
 public class CountrySelection extends AppCompatActivity implements CurrentCAdapter.ListItemClickListener{
 
@@ -31,7 +34,7 @@ public class CountrySelection extends AppCompatActivity implements CurrentCAdapt
         selectionRecyclerView.setHasFixedSize(true);
 
         // mAdapter is responsible for displaying item
-        mAdapter = new CurrentCAdapter(MainActivity.currenciesList,this, getApplicationContext());
+        mAdapter = new CurrentCAdapter(currenciesList,this, getApplicationContext());
         selectionRecyclerView.setAdapter(mAdapter);
 
         onNewIntent(getIntent());
@@ -55,7 +58,7 @@ public class CountrySelection extends AppCompatActivity implements CurrentCAdapt
 
     @Override
     protected void onNewIntent(Intent intent) {
-        intent.putExtra("fragment", getIntent().getIntExtra("fragment",-1));
+        intent.putExtra("fragment", getIntent().getIntExtra("fragment",SENTINEL));
         setIntent(intent);
         handleIntent(intent);
         super.onNewIntent(intent);
@@ -78,8 +81,8 @@ public class CountrySelection extends AppCompatActivity implements CurrentCAdapt
     public void onListItemClick(int position) {
         // Returning result to the previous fragment;
         Intent intent = getIntent();
-        int fromFragment = intent.getIntExtra("fragment", -1);
-        if (fromFragment == -1) return;
+        int fromFragment = intent.getIntExtra("fragment", SENTINEL);
+        if (fromFragment == SENTINEL) return;
         intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("from", fromFragment);
         intent.putExtra("position", position);

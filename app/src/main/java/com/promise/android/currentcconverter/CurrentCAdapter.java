@@ -69,7 +69,7 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
     }
 
     @Override
-    public CurrentCViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CurrentCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.list_item, parent, false);
@@ -77,7 +77,7 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
     }
 
     @Override
-    public void onBindViewHolder(CurrentCViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CurrentCViewHolder holder, int position) {
         holder.bindData(filteredList.get(position));
     }
 

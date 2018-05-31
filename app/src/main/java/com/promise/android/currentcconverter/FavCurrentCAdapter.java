@@ -2,6 +2,7 @@ package com.promise.android.currentcconverter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,14 +55,14 @@ public class FavCurrentCAdapter extends RecyclerView.Adapter<FavCurrentCAdapter.
         }
     }
 
-    public FavCurrentCViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FavCurrentCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.list_item, parent, false);
         return new FavCurrentCViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(FavCurrentCAdapter.FavCurrentCViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavCurrentCAdapter.FavCurrentCViewHolder holder, int position) {
         // Move the mCursor to the position of the item to be displayed
         if (!mCursor.moveToPosition(position))
             return; // bail if returned null
