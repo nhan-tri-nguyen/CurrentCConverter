@@ -23,7 +23,7 @@ public class CountrySelection extends AppCompatActivity implements CurrentCAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_selection);
 
-        selectionRecyclerView = (RecyclerView) findViewById(R.id.selectionRecyclerView);
+        selectionRecyclerView = findViewById(R.id.selectionRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         selectionRecyclerView.setLayoutManager(layoutManager);
 

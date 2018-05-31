@@ -104,12 +104,12 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("com.example.android.currentcconverter", Context.MODE_PRIVATE);
         //Set up viewpager
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = findViewById(R.id.viewpager);
         BasicFragmentPagerAdapter myAdapter = new BasicFragmentPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(myAdapter);
 
         // Give the TabLayout the ViewPager
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabbar);
+        TabLayout tabLayout = findViewById(R.id.tabbar);
         tabLayout.setupWithViewPager(viewPager);
 
         //Initialize String[] currencies_array
