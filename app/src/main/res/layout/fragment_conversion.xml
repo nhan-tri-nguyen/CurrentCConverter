@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="135dp"
+            android:layout_height="129dp"
             android:layout_marginBottom="1dp"
             android:background="@color/colorPrimaryDark"
             android:orientation="horizontal">
@@ -81,7 +81,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="135dp"
+            android:layout_height="129dp"
             android:layout_marginTop="1dp"
             android:background="@color/colorPrimaryDark"
             android:elevation="6dp"
