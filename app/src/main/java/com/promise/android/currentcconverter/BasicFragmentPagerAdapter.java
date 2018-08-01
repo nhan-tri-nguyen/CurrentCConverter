@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
 import java.util.Locale;
 
 /**
@@ -21,7 +22,7 @@ public class BasicFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case Constants.CONVERSION_FRAGMENT:
                 return new ConversionFragment();
             case Constants.FAVORITES_FRAGMENT:
@@ -39,7 +40,7 @@ public class BasicFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
 
         //Generate title
-        switch (position){
+        switch (position) {
             case Constants.CONVERSION_FRAGMENT:
                 return mContext.getString(R.string.fragment_conversion).toUpperCase(Locale.getDefault());
             case Constants.FAVORITES_FRAGMENT:

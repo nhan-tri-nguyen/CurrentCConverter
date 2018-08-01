@@ -3,22 +3,22 @@ package com.promise.android.currentcconverter;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.support.v7.widget.SearchView;
 
 import static com.promise.android.currentcconverter.Constants.SENTINEL;
 import static com.promise.android.currentcconverter.MainActivity.currenciesList;
 
 
-public class CountrySelection extends AppCompatActivity implements CurrentCAdapter.ListItemClickListener{
+public class CountrySelection extends AppCompatActivity implements CurrentCAdapter.ListItemClickListener {
 
-   private CurrentCAdapter mAdapter;
+    private CurrentCAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class CountrySelection extends AppCompatActivity implements CurrentCAdapt
         selectionRecyclerView.setHasFixedSize(true);
 
         // mAdapter is responsible for displaying item
-        mAdapter = new CurrentCAdapter(currenciesList,this, getApplicationContext());
+        mAdapter = new CurrentCAdapter(currenciesList, this, getApplicationContext());
         selectionRecyclerView.setAdapter(mAdapter);
 
         onNewIntent(getIntent());
@@ -58,7 +58,7 @@ public class CountrySelection extends AppCompatActivity implements CurrentCAdapt
 
     @Override
     protected void onNewIntent(Intent intent) {
-        intent.putExtra("fragment", getIntent().getIntExtra("fragment",SENTINEL));
+        intent.putExtra("fragment", getIntent().getIntExtra("fragment", SENTINEL));
         setIntent(intent);
         handleIntent(intent);
         super.onNewIntent(intent);

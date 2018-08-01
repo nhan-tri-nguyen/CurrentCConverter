@@ -28,10 +28,12 @@ public class CurrentC {
     public String getCurrentCName() {
         return currentCName;
     }
+
     //Get currency's abbreviation
     public String getCurrentCAbbreviations() {
         return currentCAbbreviations;
     }
+
     //Get flag's image resources id
     public int getFlagResourcesId() {
         return flagResourcesId;

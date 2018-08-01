@@ -1,18 +1,18 @@
 package com.promise.android.currentcconverter;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -29,7 +29,7 @@ import static com.promise.android.currentcconverter.Constants.SUB_CURRENCY_CONVE
  * Created by ngtrnhan1205 on 10/21/17.
  */
 
-public class ConversionFragment extends Fragment implements OnClickListener{
+public class ConversionFragment extends Fragment implements OnClickListener {
 
     private EditText inputEditText;
     private TextView outputTextView;
@@ -79,11 +79,11 @@ public class ConversionFragment extends Fragment implements OnClickListener{
         }
     }
 
-    private void findView (View view) {
+    private void findView(View view) {
         inputEditText = view.findViewById(R.id.inputEditText);
         outputTextView = view.findViewById(R.id.outputTextView);
         mainCountryImageView = view.findViewById(R.id.mainCoutnryImageView);
-        abbrMainTextView =view.findViewById(R.id.abbrMainTextView);
+        abbrMainTextView = view.findViewById(R.id.abbrMainTextView);
         subCountryImageView = view.findViewById(R.id.subCountryImageView);
         abbrSubTextView = view.findViewById(R.id.abbrSubTextView);
         switchFab = view.findViewById(R.id.switchFab);
@@ -101,9 +101,9 @@ public class ConversionFragment extends Fragment implements OnClickListener{
                 MainActivity.positionArr[MAIN_CURRENCY_CONVERSION] = MainActivity.positionArr[SUB_CURRENCY_CONVERSION];
                 MainActivity.positionArr[SUB_CURRENCY_CONVERSION] = tmp;
                 MainActivity.sharedPreferences
-                        .edit().putInt("main",MainActivity.positionArr[MAIN_CURRENCY_CONVERSION]).apply();
+                        .edit().putInt("main", MainActivity.positionArr[MAIN_CURRENCY_CONVERSION]).apply();
                 MainActivity.sharedPreferences
-                        .edit().putInt("sub",MainActivity.positionArr[SUB_CURRENCY_CONVERSION]).apply();
+                        .edit().putInt("sub", MainActivity.positionArr[SUB_CURRENCY_CONVERSION]).apply();
 
                 updateCurrencyChange();
                 updateInputChange();
@@ -158,9 +158,13 @@ public class ConversionFragment extends Fragment implements OnClickListener{
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), CountrySelection.class);
-        if (subCountryImageView == v){
+
+        if (subCountryImageView == v) {
+            intent.putExtra("fragment", SUB_CURRENCY_CONVERSION);
+        } else {
             intent.putExtra("fragment", MAIN_CURRENCY_CONVERSION);
-        } else intent.putExtra("fragment", SUB_CURRENCY_CONVERSION);
+        }
+
         startActivity(intent);
     }
 }

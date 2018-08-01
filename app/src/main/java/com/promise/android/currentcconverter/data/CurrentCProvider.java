@@ -56,7 +56,7 @@ public class CurrentCProvider extends ContentProvider {
                 break;
             case FAVCURRENTC_ID:
                 selection = FavCurrentCContract.FavCurrentCEntry._ID;
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME, projection,
                         selection, selectionArgs, null, null, sortOrder);
                 break;
@@ -109,7 +109,7 @@ public class CurrentCProvider extends ContentProvider {
             case FAVCURRENTC_ID:
                 // Delete a single row given by the ID in the URI
                 selection = FavCurrentCContract.FavCurrentCEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return database.delete(FavCurrentCContract.FavCurrentCEntry.TABLE_NAME, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
@@ -132,7 +132,7 @@ public class CurrentCProvider extends ContentProvider {
                 return updateFavCurrentC(uri, values, selection, selectionArgs);
             case FAVCURRENTC_ID:
                 selection = FavCurrentCContract.FavCurrentCEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateFavCurrentC(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);

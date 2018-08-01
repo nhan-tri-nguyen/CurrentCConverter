@@ -17,42 +17,17 @@ import com.promise.android.currentcconverter.data.FavCurrentCContract;
  * Created by ngtrnhan1205 on 11/20/17.
  */
 
-public class FavCurrentCAdapter extends RecyclerView.Adapter<FavCurrentCAdapter.FavCurrentCViewHolder>{
+public class FavCurrentCAdapter extends RecyclerView.Adapter<FavCurrentCAdapter.FavCurrentCViewHolder> {
 
+    final private ListenerInterface mOnClickListener;
     private Context mContext;
     private Cursor mCursor;
-    final private ListenerInterface mOnClickListener;
-
-    public interface ListenerInterface extends View.OnClickListener {
-        void onListItemLongClick(View view);
-    }
 
     // Constructor
     public FavCurrentCAdapter(Context context, Cursor cursor, ListenerInterface listener) {
         this.mContext = context;
         this.mCursor = cursor;
         mOnClickListener = listener;
-    }
-
-    public class FavCurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
-        TextView abbrTextView;
-        TextView amountTextView;
-        ImageView flagImageView;
-
-        // Constructor
-        public FavCurrentCViewHolder(View itemView) {
-            super(itemView);
-            abbrTextView = itemView.findViewById(R.id.abbrTextView);
-            amountTextView = itemView.findViewById(R.id.nameTextView);
-            flagImageView = itemView.findViewById(R.id.flagImageView);
-            itemView.setOnLongClickListener(this);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            mOnClickListener.onListItemLongClick(view);
-            return true;
-        }
     }
 
     public FavCurrentCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -96,5 +71,30 @@ public class FavCurrentCAdapter extends RecyclerView.Adapter<FavCurrentCAdapter.
     @Override
     public int getItemCount() {
         return mCursor.getCount();
+    }
+
+    public interface ListenerInterface extends View.OnClickListener {
+        void onListItemLongClick(View view);
+    }
+
+    public class FavCurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+        TextView abbrTextView;
+        TextView amountTextView;
+        ImageView flagImageView;
+
+        // Constructor
+        public FavCurrentCViewHolder(View itemView) {
+            super(itemView);
+            abbrTextView = itemView.findViewById(R.id.abbrTextView);
+            amountTextView = itemView.findViewById(R.id.nameTextView);
+            flagImageView = itemView.findViewById(R.id.flagImageView);
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            mOnClickListener.onListItemLongClick(view);
+            return true;
+        }
     }
 }

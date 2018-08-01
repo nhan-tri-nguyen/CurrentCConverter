@@ -3,6 +3,7 @@ package com.promise.android.currentcconverter;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,7 +12,7 @@ import okhttp3.Response;
  * Created by ngtrnhan1205 on 10/24/17.
  */
 
- public class GetUrl extends AsyncTask<String, Void, String> {
+public class GetUrl extends AsyncTask<String, Void, String> {
     private OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
     @Override

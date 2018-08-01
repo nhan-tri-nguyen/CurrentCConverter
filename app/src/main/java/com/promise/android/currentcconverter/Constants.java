@@ -1,6 +1,6 @@
 package com.promise.android.currentcconverter;
 
- public class Constants {
+public class Constants {
     static final String ACCESS_KEY = "060cdd5f28bcadbeea155864b0bb2501";
     static final String BASE_URL = "http://apilayer.net/api/";
     static final String ENDPOINT = "live";

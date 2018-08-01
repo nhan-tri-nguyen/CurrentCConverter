@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
-
 
 import java.util.ArrayList;
 
@@ -61,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeDatabase() {
-        positionArr[MAIN_CURRENCY_CONVERSION] = sharedPreferences.getInt("main",DEFAULT_CURRENCY);
-        positionArr[SUB_CURRENCY_CONVERSION] = sharedPreferences.getInt("sub",DEFAULT_CURRENCY);
-        positionArr[MAIN_CURRENCY_FAVORITES] = sharedPreferences.getInt("favorites",DEFAULT_CURRENCY);
+        positionArr[MAIN_CURRENCY_CONVERSION] = sharedPreferences.getInt("main", DEFAULT_CURRENCY);
+        positionArr[SUB_CURRENCY_CONVERSION] = sharedPreferences.getInt("sub", DEFAULT_CURRENCY);
+        positionArr[MAIN_CURRENCY_FAVORITES] = sharedPreferences.getInt("favorites", DEFAULT_CURRENCY);
         positionArr[ADD_FAVORITES] = SENTINEL;
     }
 
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         */
         int fromFragment = intent.getIntExtra("from", SENTINEL);
 
-        if (position != SENTINEL && fromFragment != SENTINEL)  {
+        if (position != SENTINEL && fromFragment != SENTINEL) {
             //Returning to the previous tab
             switch (fromFragment) {
                 case ADD_FAVORITES: {
@@ -91,21 +90,21 @@ public class MainActivity extends AppCompatActivity {
                 case SUB_CURRENCY_CONVERSION: {
                     viewPager.setCurrentItem(CONVERSION_FRAGMENT);
                     positionArr[fromFragment] = filteredPosArr[position];
-                    sharedPreferences.edit().putInt("sub",positionArr[fromFragment]).apply();
+                    sharedPreferences.edit().putInt("sub", positionArr[fromFragment]).apply();
                     break;
                 }
 
                 case MAIN_CURRENCY_CONVERSION: {
                     viewPager.setCurrentItem(CONVERSION_FRAGMENT);
                     positionArr[fromFragment] = filteredPosArr[position];
-                    sharedPreferences.edit().putInt("main",positionArr[fromFragment]).apply();
+                    sharedPreferences.edit().putInt("main", positionArr[fromFragment]).apply();
                     break;
                 }
 
                 case MAIN_CURRENCY_FAVORITES: {
                     viewPager.setCurrentItem(FAVORITES_FRAGMENT);
                     positionArr[fromFragment] = filteredPosArr[position];
-                    sharedPreferences.edit().putInt("favorites",positionArr[fromFragment]).apply();
+                    sharedPreferences.edit().putInt("favorites", positionArr[fromFragment]).apply();
                     break;
                 }
 

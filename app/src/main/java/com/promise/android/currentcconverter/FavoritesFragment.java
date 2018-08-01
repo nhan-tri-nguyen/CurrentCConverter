@@ -4,10 +4,10 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,13 +15,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.promise.android.currentcconverter.data.FavCurrentCContract;
+
 import org.json.JSONException;
 
 import java.math.BigDecimal;
@@ -45,7 +47,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
     private void Rendering() {
         // Render previous amount
-        amountEditText.setText(MainActivity.sharedPreferences.getString("favoriteAmount",""));
+        amountEditText.setText(MainActivity.sharedPreferences.getString("favoriteAmount", ""));
         // Render for FavCurrency
         int myPosition = MainActivity.positionArr[1];
         if (myPosition != SENTINEL) {
@@ -60,7 +62,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
     private void favListRender() {
         // Render for FavList
-        String jsonString = MainActivity.sharedPreferences.getString("json","");
+        String jsonString = MainActivity.sharedPreferences.getString("json", "");
 
         int myPos = MainActivity.positionArr[ADD_FAVORITES];
 
@@ -69,7 +71,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
             CurrentC currentC = MainActivity.currenciesList.get(myPos);
             // Get result from JSON
             String subAbbr = currentC.getCurrentCAbbreviations();
-            ResultFromJSON res = new ResultFromJSON (
+            ResultFromJSON res = new ResultFromJSON(
                     abbrCurrencyTextView.getText().toString(),
                     subAbbr,
                     amountEditText.getText().toString()
@@ -93,7 +95,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     private void updateInputChange() {
-        String jsonString = MainActivity.sharedPreferences.getString("json","");
+        String jsonString = MainActivity.sharedPreferences.getString("json", "");
 
         if (jsonString.equals("")) return;
 
@@ -172,10 +174,12 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
         amountEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -230,7 +234,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_IMG_RES_ID, imgId);
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount.toString());
 
-        getActivity().getContentResolver().insert(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,contentValues);
+        getActivity().getContentResolver().insert(FavCurrentCContract.FavCurrentCEntry.CONTENT_URI, contentValues);
     }
 
     private boolean removeFavCurrentC(long id) {

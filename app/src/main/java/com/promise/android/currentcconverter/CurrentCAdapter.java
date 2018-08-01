@@ -19,47 +19,15 @@ import java.util.ArrayList;
  * Created by ngtrnhan1205 on 10/25/17.
  */
 
-public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.CurrentCViewHolder> implements Filterable{
+public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.CurrentCViewHolder> implements Filterable {
 
+    final private ListItemClickListener mOnClickListener;
     private Context mContext;
     private ArrayList<CurrentC> originalList;
     private ArrayList<CurrentC> filteredList;
-    final private ListItemClickListener mOnClickListener;
-
-    public interface ListItemClickListener {
-        void onListItemClick(int postion);
-    }
-
-    // Set up a ViewHolder to enhance scrolling performance
-    public class CurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        TextView nameTextView;
-        TextView abbrTextView;
-        ImageView flagImageView;
-        public CurrentCViewHolder(View itemView) {
-            super(itemView);
-            nameTextView = itemView.findViewById(R.id.nameTextView);
-            abbrTextView = itemView.findViewById(R.id.abbrTextView);
-            flagImageView = itemView.findViewById(R.id.flagImageView);
-            itemView.setOnClickListener(this);
-        }
-
-        void bindData(CurrentC currentC) {
-            nameTextView.setText(currentC.getCurrentCName());
-            abbrTextView.setText(currentC.getCurrentCAbbreviations());
-            Glide.with(mContext).load(currentC.getFlagResourcesId()).into(flagImageView);
-        }
-
-
-        @Override
-        public void onClick(View v) {
-            int position = getAdapterPosition();
-            mOnClickListener.onListItemClick(position);
-        }
-    }
 
     // CurrentCAdapter constructor
-    public CurrentCAdapter (ArrayList<CurrentC> currentCArrayList, ListItemClickListener listener, Context context) {
+    public CurrentCAdapter(ArrayList<CurrentC> currentCArrayList, ListItemClickListener listener, Context context) {
         originalList = currentCArrayList;
         filteredList = currentCArrayList;
         mOnClickListener = listener;
@@ -91,7 +59,6 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
         return filteredList.size();
     }
 
-
     private boolean match(CharSequence constraint, String data) {
         // Checking if data has characters of constraint (both upper and lower case
         int limit = 60;
@@ -107,7 +74,7 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
                 distribution[charNum - 97]++;
             }
         }
-        for (int i = 0; i < data.length(); ++i){
+        for (int i = 0; i < data.length(); ++i) {
             int charNum = (int) data.charAt(i);
             if (charNum > 64 && charNum < 91) {
                 distribution[charNum - 65]--;
@@ -118,7 +85,7 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
                 distribution[charNum - 97]--;
             }
         }
-        for (int i =0; i < limit; ++i)
+        for (int i = 0; i < limit; ++i)
             if (distribution[i] > 0) return false;
         return true;
     }
@@ -131,18 +98,17 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
 
-                if (constraint == null || constraint.length() == 0){
+                if (constraint == null || constraint.length() == 0) {
                     filterResults.values = originalList;
                     filterResults.count = originalList.size();
-                }
-                else {
+                } else {
                     ArrayList<CurrentC> filteredData = new ArrayList<>();
                     int counter = 0;
 
                     for (int i = 0; i < originalList.size(); ++i) {
                         CurrentC object = originalList.get(i);
                         if (match(constraint, object.getCurrentCName()) ||
-                                match(constraint, object.getCurrentCAbbreviations())){
+                                match(constraint, object.getCurrentCAbbreviations())) {
                             filteredData.add(object);
                             MainActivity.filteredPosArr[counter++] = i;
                         }
@@ -161,5 +127,39 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
             }
         };
 
+    }
+
+
+    public interface ListItemClickListener {
+        void onListItemClick(int postion);
+    }
+
+    // Set up a ViewHolder to enhance scrolling performance
+    public class CurrentCViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        TextView nameTextView;
+        TextView abbrTextView;
+        ImageView flagImageView;
+
+        public CurrentCViewHolder(View itemView) {
+            super(itemView);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
+            abbrTextView = itemView.findViewById(R.id.abbrTextView);
+            flagImageView = itemView.findViewById(R.id.flagImageView);
+            itemView.setOnClickListener(this);
+        }
+
+        void bindData(CurrentC currentC) {
+            nameTextView.setText(currentC.getCurrentCName());
+            abbrTextView.setText(currentC.getCurrentCAbbreviations());
+            Glide.with(mContext).load(currentC.getFlagResourcesId()).into(flagImageView);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mOnClickListener.onListItemClick(position);
+        }
     }
 }
