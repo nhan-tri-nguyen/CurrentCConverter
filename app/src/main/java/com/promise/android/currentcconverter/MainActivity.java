@@ -32,44 +32,59 @@ public class MainActivity extends AppCompatActivity {
 
     static SharedPreferences sharedPreferences;
     static ArrayList<CurrentC> currenciesList = new ArrayList<>();
+
     // Array of the positions of all currencies
     static int[] positionArr = new int[4];
+
     // Keep track of the pos of currencies
     // when filtering currencies in CountrySelection
     static int[] filteredPosArr = new int[200];
     private final int NUMBER_CHARACTERS_OF_ABBR = 3;
+
     //  Default currency is CAD
     private final int DEFAULT_CURRENCY = 16;
 
     //  Get the first 3 characters
     public String getAbbreviation(String s) {
+
         StringBuilder result = new StringBuilder("");
+
         for (int i = 0; i < NUMBER_CHARACTERS_OF_ABBR; i++) {
             result.append(s.charAt(i));
         }
+
         return result.toString();
     }
 
     //  Get the rest of the string
     public String getName(String s) {
+
         StringBuilder result = new StringBuilder("");
+
         for (int i = NUMBER_CHARACTERS_OF_ABBR + 1; i < s.length() - NUMBER_CHARACTERS_OF_ABBR - 1; ++i) {
             result.append(s.charAt(i));
         }
+
         return result.toString();
     }
 
     private void initializeDatabase() {
+
         positionArr[MAIN_CURRENCY_CONVERSION] = sharedPreferences.getInt("main", DEFAULT_CURRENCY);
+
         positionArr[SUB_CURRENCY_CONVERSION] = sharedPreferences.getInt("sub", DEFAULT_CURRENCY);
+
         positionArr[MAIN_CURRENCY_FAVORITES] = sharedPreferences.getInt("favorites", DEFAULT_CURRENCY);
+
         positionArr[ADD_FAVORITES] = SENTINEL;
     }
 
     private void setInfo(ViewPager viewPager) {
+
         //  Get back response from CountrySelection after choosing a country
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", SENTINEL);
+
         /*
         fromFragment == 0: mainCountry in conversion
                      == 1: favCountry in favorites
@@ -79,15 +94,19 @@ public class MainActivity extends AppCompatActivity {
         int fromFragment = intent.getIntExtra("from", SENTINEL);
 
         if (position != SENTINEL && fromFragment != SENTINEL) {
+
             //Returning to the previous tab
             switch (fromFragment) {
+
                 case ADD_FAVORITES: {
+
                     viewPager.setCurrentItem(FAVORITES_FRAGMENT);
                     positionArr[fromFragment] = filteredPosArr[position];
                     break;
                 }
 
                 case SUB_CURRENCY_CONVERSION: {
+
                     viewPager.setCurrentItem(CONVERSION_FRAGMENT);
                     positionArr[fromFragment] = filteredPosArr[position];
                     sharedPreferences.edit().putInt("sub", positionArr[fromFragment]).apply();
@@ -95,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 case MAIN_CURRENCY_CONVERSION: {
+
                     viewPager.setCurrentItem(CONVERSION_FRAGMENT);
                     positionArr[fromFragment] = filteredPosArr[position];
                     sharedPreferences.edit().putInt("main", positionArr[fromFragment]).apply();
@@ -102,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 case MAIN_CURRENCY_FAVORITES: {
+
                     viewPager.setCurrentItem(FAVORITES_FRAGMENT);
                     positionArr[fromFragment] = filteredPosArr[position];
                     sharedPreferences.edit().putInt("favorites", positionArr[fromFragment]).apply();
@@ -109,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 default: {
+
                     viewPager.setCurrentItem(CONVERSION_FRAGMENT);
                     Log.e("fromFragment not found:", String.valueOf(fromFragment));
                     break;
@@ -119,22 +141,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Window window = this.getWindow();
 
-        // clear FLAG_TRANSLUCENT_STATUS flag:
+        // Clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        // Add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        // finally change the color
+        // hange the color
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
         sharedPreferences = this.getSharedPreferences("com.example.android.currentcconverter", Context.MODE_PRIVATE);
-        //Set up viewpager
+
+        // Set up viewpager
         ViewPager viewPager = findViewById(R.id.viewpager);
         BasicFragmentPagerAdapter myAdapter = new BasicFragmentPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(myAdapter);
@@ -143,11 +167,11 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabbar);
         tabLayout.setupWithViewPager(viewPager);
 
-        //Initialize String[] currencies_array
+        // Initialize String[] currencies_array
         Resources res = getResources();
         String[] currencies = res.getStringArray(R.array.currencies_array);
 
-        //Initialize TypedArray for flags images
+        // Initialize TypedArray for flags images
         TypedArray flags = res.obtainTypedArray(R.array.flags);
 
         //Set up currenciesList for the selectionCountry
@@ -159,9 +183,13 @@ public class MainActivity extends AppCompatActivity {
                                 flags.getResourceId(i, SENTINEL)));
             }
         }
+
         flags.recycle();
+
         initializeDatabase();
+
         setInfo(viewPager);
+
         updateJSON();
     }
 

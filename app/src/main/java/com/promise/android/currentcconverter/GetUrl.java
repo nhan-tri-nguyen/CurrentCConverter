@@ -13,25 +13,32 @@ import okhttp3.Response;
  */
 
 public class GetUrl extends AsyncTask<String, Void, String> {
+
     private OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
     @Override
     final protected String doInBackground(String... urls) {
+
         Request request = new Request.Builder().url(urls[0]).build();
 
         try {
+
             Response response = okHttpClient.newCall(request).execute();
-            //noinspection ConstantConditions
+
             return response.body().string();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
     @Override
     protected void onPostExecute(String s) {
+
         super.onPostExecute(s);
+
         if (s != null) {
             MainActivity.sharedPreferences.edit().putString("json", s).apply();
         }

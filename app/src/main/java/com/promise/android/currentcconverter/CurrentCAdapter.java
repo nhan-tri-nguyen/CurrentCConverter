@@ -22,25 +22,32 @@ import java.util.ArrayList;
 public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.CurrentCViewHolder> implements Filterable {
 
     final private ListItemClickListener mOnClickListener;
+
     private Context mContext;
     private ArrayList<CurrentC> originalList;
     private ArrayList<CurrentC> filteredList;
 
     // CurrentCAdapter constructor
     public CurrentCAdapter(ArrayList<CurrentC> currentCArrayList, ListItemClickListener listener, Context context) {
+
         originalList = currentCArrayList;
         filteredList = currentCArrayList;
         mOnClickListener = listener;
         mContext = context;
+
         //Reset filteredPosArr
-        for (int i = 0; i < 200; ++i) MainActivity.filteredPosArr[i] = i;
+        for (int i = 0; i < 200; ++i) {
+            MainActivity.filteredPosArr[i] = i;
+        }
     }
 
     @Override
     public CurrentCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.list_item, parent, false);
+
         return new CurrentCViewHolder(view);
     }
 
@@ -60,33 +67,47 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
     }
 
     private boolean match(CharSequence constraint, String data) {
+
         // Checking if data has characters of constraint (both upper and lower case
-        int limit = 60;
+        int limit = Constants.CHARACTER_LIMIT;
         int[] distribution = new int[limit];
+
         for (int i = 0; i < constraint.length(); ++i) {
+
             int charNum = (int) constraint.charAt(i);
+
             if (charNum > 64 && charNum < 91) {
                 distribution[charNum - 65]++;
                 distribution[charNum - 39]++;
             }
+
             if (charNum > 96 && charNum < 123) {
                 distribution[charNum - 71]++;
                 distribution[charNum - 97]++;
             }
         }
+
         for (int i = 0; i < data.length(); ++i) {
+
             int charNum = (int) data.charAt(i);
+
             if (charNum > 64 && charNum < 91) {
                 distribution[charNum - 65]--;
                 distribution[charNum - 39]--;
             }
+
             if (charNum > 96 && charNum < 123) {
                 distribution[charNum - 71]--;
                 distribution[charNum - 97]--;
             }
         }
-        for (int i = 0; i < limit; ++i)
-            if (distribution[i] > 0) return false;
+
+        for (int i = 0; i < limit; ++i) {
+            if (distribution[i] > 0) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -96,32 +117,40 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
+
                 FilterResults filterResults = new FilterResults();
 
                 if (constraint == null || constraint.length() == 0) {
+
                     filterResults.values = originalList;
                     filterResults.count = originalList.size();
                 } else {
+
                     ArrayList<CurrentC> filteredData = new ArrayList<>();
                     int counter = 0;
 
                     for (int i = 0; i < originalList.size(); ++i) {
+
                         CurrentC object = originalList.get(i);
+
                         if (match(constraint, object.getCurrentCName()) ||
                                 match(constraint, object.getCurrentCAbbreviations())) {
+
                             filteredData.add(object);
                             MainActivity.filteredPosArr[counter++] = i;
                         }
                     }
+
                     filterResults.values = filteredData;
                     filterResults.count = filteredData.size();
                 }
+
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                //noinspection unchecked
+
                 filteredList = (ArrayList<CurrentC>) results.values;
                 notifyDataSetChanged();
             }
@@ -131,7 +160,7 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
 
 
     public interface ListItemClickListener {
-        void onListItemClick(int postion);
+        void onListItemClick(int position);
     }
 
     // Set up a ViewHolder to enhance scrolling performance
@@ -142,22 +171,28 @@ public class CurrentCAdapter extends RecyclerView.Adapter<CurrentCAdapter.Curren
         ImageView flagImageView;
 
         public CurrentCViewHolder(View itemView) {
+
             super(itemView);
+
             nameTextView = itemView.findViewById(R.id.nameTextView);
             abbrTextView = itemView.findViewById(R.id.abbrTextView);
             flagImageView = itemView.findViewById(R.id.flagImageView);
+
             itemView.setOnClickListener(this);
         }
 
         void bindData(CurrentC currentC) {
+
             nameTextView.setText(currentC.getCurrentCName());
             abbrTextView.setText(currentC.getCurrentCAbbreviations());
+
             Glide.with(mContext).load(currentC.getFlagResourcesId()).into(flagImageView);
         }
 
 
         @Override
         public void onClick(View v) {
+
             int position = getAdapterPosition();
             mOnClickListener.onListItemClick(position);
         }

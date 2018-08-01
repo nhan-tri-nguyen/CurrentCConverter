@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 
 import static com.promise.android.currentcconverter.Constants.ADD_FAVORITES;
 import static com.promise.android.currentcconverter.Constants.ERROR_MESSAGE;
+import static com.promise.android.currentcconverter.Constants.MAIN_CURRENCY_FAVORITES;
 import static com.promise.android.currentcconverter.Constants.SENTINEL;
 
 /**
@@ -46,21 +47,29 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     private FavCurrentCAdapter mAdapter;
 
     private void Rendering() {
+
         // Render previous amount
         amountEditText.setText(MainActivity.sharedPreferences.getString("favoriteAmount", ""));
+
         // Render for FavCurrency
-        int myPosition = MainActivity.positionArr[1];
+        int myPosition = MainActivity.positionArr[MAIN_CURRENCY_FAVORITES];
+
         if (myPosition != SENTINEL) {
+
             CurrentC myCurrency = MainActivity.currenciesList.get(myPosition);
+
             favCurrencyImageView.setImageResource(myCurrency.getFlagResourcesId());
             countryNameTextView.setText(myCurrency.getCurrentCName());
             abbrCurrencyTextView.setText(myCurrency.getCurrentCAbbreviations());
+
             updateInputChange();
         }
+
         favListRender();
     }
 
     private void favListRender() {
+
         // Render for FavList
         String jsonString = MainActivity.sharedPreferences.getString("json", "");
 
@@ -69,8 +78,10 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
         if (myPos != SENTINEL && !jsonString.equals("")) {
 
             CurrentC currentC = MainActivity.currenciesList.get(myPos);
+
             // Get result from JSON
             String subAbbr = currentC.getCurrentCAbbreviations();
+
             ResultFromJSON res = new ResultFromJSON(
                     abbrCurrencyTextView.getText().toString(),
                     subAbbr,
@@ -95,6 +106,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     private void updateInputChange() {
+
         String jsonString = MainActivity.sharedPreferences.getString("json", "");
 
         if (jsonString.equals("")) return;
@@ -108,32 +120,40 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
         // Iterate through the database
         while (cursor.moveToNext()) {
-            String subAbbr = cursor.getString(cursor.
-                    getColumnIndex(FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR));
-            long id = cursor.getLong(cursor.
-                    getColumnIndex(FavCurrentCContract.FavCurrentCEntry._ID));
-            ResultFromJSON res = new ResultFromJSON(abbrCurrencyTextView.getText().toString(),
-                    subAbbr, amountEditText.getText().toString());
+
+            String subAbbr = cursor.getString(cursor.getColumnIndex(FavCurrentCContract.FavCurrentCEntry.COLUMN_ABBR));
+
+            long id = cursor.getLong(cursor.getColumnIndex(FavCurrentCContract.FavCurrentCEntry._ID));
+
+            ResultFromJSON res = new ResultFromJSON(
+                    abbrCurrencyTextView.getText().toString(),
+                    subAbbr,
+                    amountEditText.getText().toString()
+            );
+
             BigDecimal amount = new BigDecimal("0");
+
             try {
                 amount = res.getNumResult(jsonString);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             if (!updateFavCurrentC(amount, id)) {
                 Toast.makeText(getActivity(), ERROR_MESSAGE, Toast.LENGTH_LONG).show();
             }
         }
+
         mAdapter.swapCursor(getFavCurrentC());
     }
 
     private boolean updateFavCurrentC(BigDecimal amount, long id) {
+
         // Update the database
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT, amount.toString());
-        //noinspection ConstantConditions
-        return getActivity().getContentResolver()
-                .update(
+
+        return getActivity().getContentResolver().update(
                         FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
                         contentValues,
                         FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
@@ -142,7 +162,9 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     private void setAllViews(View view) {
+
         RecyclerView favRecyclerView;
+
         // Set view for Recycler View
         favRecyclerView = view.findViewById(R.id.favRecyclerView);
         favRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -161,6 +183,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     private void setViewOnClickListener() {
+
         favCurrencyImageView.setOnClickListener(this);
 
         addFab.setOnClickListener(new OnClickListener() {
@@ -183,10 +206,12 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 MainActivity.sharedPreferences.edit().putString(
                         "favoriteAmount",
                         amountEditText.getText().toString()
                 ).apply();
+
                 updateInputChange();
             }
         });
@@ -194,22 +219,29 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
+
         setAllViews(view);
         setViewOnClickListener();
+
         // Render after adding a country
         Rendering();
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
+
         Intent intent = new Intent(getActivity(), CountrySelection.class);
         intent.putExtra("fragment", 1);
+
         startActivity(intent);
     }
 
     private Cursor getFavCurrentC() {
+
         String[] projection = {
                 FavCurrentCContract.FavCurrentCEntry._ID,
                 FavCurrentCContract.FavCurrentCEntry.COLUMN_AMOUNT,
@@ -238,9 +270,8 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
     }
 
     private boolean removeFavCurrentC(long id) {
-        //noinspection ConstantConditions
-        return getActivity().getContentResolver()
-                .delete(
+
+        return getActivity().getContentResolver().delete(
                         FavCurrentCContract.FavCurrentCEntry.CONTENT_URI,
                         FavCurrentCContract.FavCurrentCEntry._ID + "=" + id,
                         null
@@ -249,7 +280,7 @@ public class FavoritesFragment extends Fragment implements FavCurrentCAdapter.Li
 
     @Override
     public void onListItemLongClick(final View view) {
-        //noinspection ConstantConditions
+
         new AlertDialog.Builder(getActivity())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Are you sure?")

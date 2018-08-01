@@ -8,8 +8,10 @@ public class CurrentC {
 
     //Represent the name of the currency such as Canadian Dollar
     private String currentCName;
+
     //Represent the currency abbreviation such as CAD
     private String currentCAbbreviations;
+
     //Contain the resource id of the image
     private int flagResourcesId;
 
