@@ -114,15 +114,6 @@ public class ConversionFragment extends Fragment implements OnClickListener {
         keyboard = view.findViewById(R.id.keyboard);
     }
 
-    private void swap(int first, int second) {
-
-        int tmp = first;
-
-        first = second;
-
-        second = tmp;
-    }
-
     private void setViewOnClickListener() {
         // Set view to OnClickListener
         mainCountryImageView.setOnClickListener(this);
@@ -132,17 +123,16 @@ public class ConversionFragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(View view) {
 
-                swap(MainActivity.positionArr[MAIN_CURRENCY_CONVERSION], MainActivity.positionArr[SUB_CURRENCY_CONVERSION]);
+                int mainPosition = MainActivity.positionArr[MAIN_CURRENCY_CONVERSION];
+                int subPosition = MainActivity.positionArr[SUB_CURRENCY_CONVERSION];
 
-                MainActivity.sharedPreferences.edit().putInt(
-                        "main",
-                        MainActivity.positionArr[MAIN_CURRENCY_CONVERSION]
-                ).apply();
+                // just a swap
+                mainPosition = getItself(subPosition, subPosition = mainPosition);
+                MainActivity.positionArr[MAIN_CURRENCY_CONVERSION] = mainPosition;
+                MainActivity.positionArr[SUB_CURRENCY_CONVERSION] = subPosition;
 
-                MainActivity.sharedPreferences.edit().putInt(
-                        "sub",
-                        MainActivity.positionArr[SUB_CURRENCY_CONVERSION]
-                ).apply();
+                MainActivity.sharedPreferences.edit().putInt("main", mainPosition).apply();
+                MainActivity.sharedPreferences.edit().putInt("sub", subPosition).apply();
 
                 updateCurrencyChange();
 
@@ -194,6 +184,10 @@ public class ConversionFragment extends Fragment implements OnClickListener {
                 }
             });
         }
+    }
+
+    private int getItself(int itself, int dummy) {
+        return itself;
     }
 
     @Override
